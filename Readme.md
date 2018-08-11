@@ -23,7 +23,7 @@ If you want a UI on to see Kafka Topics etc , use the following command
 
 ```
 docker run --rm -it -p 8000:8000 \
-               -e "KAFKA_REST_PROXY_URL=http://kafka-rest-proxy-host:port" \
+               -e "KAFKA_REST_PROXY_URL=http://localhost:8082" \
                -e "PROXY=true" \
                landoop/kafka-topics-ui
 ```
