@@ -96,6 +96,7 @@ public class S3Producer extends TimerTask{
 
 	public void run() {
 		logger.debug("Starting..run.");
+		System.out.println("Starting..run.");
 		try {
 			//get messages from S3
 			getDataFromS3();
@@ -142,9 +143,9 @@ public class S3Producer extends TimerTask{
 								
 								long elapsedTime = System.currentTimeMillis() - time;
 				                if (metadata != null) {
-				                    System.out.printf("sent record(key=%s value=%s) " +
+				                    System.out.printf("sent record(key=%s valuelength=%s) " +
 				                                    "meta(partition=%d, offset=%d) time=%d\n",
-				                            record.key(), record.value(), metadata.partition(),
+				                            record.key(), record.value().length(), metadata.partition(),
 				                            metadata.offset(), elapsedTime);
 				                    //success move the s3 file from incoming to processed
 				                    s3FileMove(record.key(),true);

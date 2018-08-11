@@ -9,7 +9,8 @@ public class ThreadedApp {
 		S3Producer producer = new S3Producer( "localhost:9092", "eip-s3-incoming", "errorTopic","AKIAIHX6U5QGJDZGPVIA" , "Oq5mV5tmwo6KMg9AUKKbWRd0JO6yQSX4rNBFfu3g", "eip-plus-messages-dev" , "outgoing/", "processed/");
 		
 		Timer timer = new Timer();
-		timer.schedule(producer, 2000l);
+		timer.schedule(producer,0, 5000l);
+		
 		
 	}
 
