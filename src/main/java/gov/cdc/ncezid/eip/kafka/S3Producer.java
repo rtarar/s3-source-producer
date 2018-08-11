@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 
 import java.io.InputStreamReader;
 import java.util.Properties;
+import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,7 @@ import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
-public class S3Producer implements Runnable{
+public class S3Producer extends TimerTask{
 	
 	private static final Logger logger = Logger.getLogger(S3Producer.class);
 
@@ -44,7 +45,7 @@ public class S3Producer implements Runnable{
 	protected final String s3SourcePrefix;
 	protected final String s3ProcessedPrefix;
 	protected final AmazonS3 s3client;
-	
+	KafkaProducer<String,String> producer;
 	protected  Properties props;
 
 	
@@ -87,12 +88,14 @@ public class S3Producer implements Runnable{
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.RETRIES_CONFIG, "3");
         props.put(ProducerConfig.LINGER_MS_CONFIG, "1");
+        this.props = props;
         
-		this.props = props;
+        this.producer = new KafkaProducer<String,String>(props);
+		
 	}
 
 	public void run() {
-		logger.debug("Starting...");
+		logger.debug("Starting..run.");
 		try {
 			//get messages from S3
 			getDataFromS3();
@@ -104,6 +107,7 @@ public class S3Producer implements Runnable{
 		
 	}
 	
+
 	private void getDataFromS3() {
       ListObjectsRequest lor = new ListObjectsRequest()
               .withBucketName(s3BucketName)
@@ -125,10 +129,8 @@ public class S3Producer implements Runnable{
 	          
 	            if(os.getKey().contains("json")) {
 		           // System.out.println(s3Data);
-	            	//its been read lets change the prefix for the object 
-	            	KafkaProducer<String,String> producer = new KafkaProducer<String,String>(props);
-	            	  final long time = System.currentTimeMillis();
-	            	  final CountDownLatch countDownLatch = new CountDownLatch(numrecords);
+	              final long time = System.currentTimeMillis();
+	              final CountDownLatch countDownLatch = new CountDownLatch(numrecords);
 	            	
 		            try {
 		            	  final ProducerRecord<String, String> record = new ProducerRecord<String, String>(outgoingTopicName,os.getKey(),s3Data);
@@ -158,7 +160,7 @@ public class S3Producer implements Runnable{
 		            }catch(Exception e) {
 		            	e.printStackTrace();
 		            }finally {
-		            	producer.close();
+		            	//producer.close();
 		            }
 	        	}
 	        }
