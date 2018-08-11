@@ -44,7 +44,7 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 public class App 
 {
 	 private final static String TOPIC = "eip-s3-incoming";
-     private final static String BOOTSTRAP_SERVERS = "localhost:29092";
+     private final static String BOOTSTRAP_SERVERS = "localhost:9092";
      private final static Logger logger = Logger.getLogger(App.class);
      private final static String S3_EIP_BUCKET_NAME = "eip-plus-messages-dev";
      private final static String S3_EIP_BUCKET_PREFIX_INCOMING = "outgoing/";
@@ -75,6 +75,7 @@ public class App
         
         ObjectListing objectListing = s3client.listObjects(lor);
         if(objectListing.getObjectSummaries().size()>1) {
+        	System.out.println((objectListing.getObjectSummaries().size()-1) +" Files found in S3 Bucket : "+S3_EIP_BUCKET_NAME+" and folder "+S3_EIP_BUCKET_PREFIX_INCOMING+" to process.");
 	        for(S3ObjectSummary os : objectListing.getObjectSummaries()) {
 	        	logger.info(os.getKey());
 	        	//System.out.println(os.getKey()+":"+os.getSize()+":"+os.getLastModified()+":"+os.getETag());
@@ -88,7 +89,7 @@ public class App
 	          
 		            try {
 		            	  runProducer(os.getKey(),s3Data);
-		            	  s3FileMove(s3client,s3Object);
+		            	  s3FileMove(s3client,s3Object,false);
 		            }catch(Exception e) {
 		            	e.printStackTrace();
 		            }
@@ -100,15 +101,17 @@ public class App
         
     }
     
-    public static void s3FileMove(AmazonS3 s3client, S3Object s3Object) {
+    public static void s3FileMove(AmazonS3 s3client, S3Object s3Object , boolean delete) {
     	String oldkey = s3Object.getKey();
     	String destinationKey = oldkey.replace(S3_EIP_BUCKET_PREFIX_INCOMING,S3_EIP_BUCKET_PREFIX_PROCESSED);
     	//System.out.println(destinationKey);
     	CopyObjectRequest cpr = new CopyObjectRequest(s3Object.getBucketName(), s3Object.getKey(), S3_EIP_BUCKET_NAME, destinationKey);
     	s3client.copyObject(cpr);
-    	DeleteObjectsRequest dor = new DeleteObjectsRequest(S3_EIP_BUCKET_NAME)
-    								.withKeys(oldkey);
-    	s3client.deleteObjects(dor);
+    	if(delete) {
+	    	DeleteObjectsRequest dor = new DeleteObjectsRequest(S3_EIP_BUCKET_NAME)
+	    								.withKeys(oldkey);
+	    	s3client.deleteObjects(dor);
+    	}
     }
     
     private static KafkaProducer<String, String> createProducer() {
@@ -143,9 +146,9 @@ public class App
                // producer.commitTransaction();
                 long elapsedTime = System.currentTimeMillis() - time;
 
-                System.out.printf("sent record(key=%s value=%s) " + 
+                System.out.printf("sent record(key=%s valuesize=%s) " + 
                                 "meta(partition=%d, offset=%d) time=%d\n",
-                        record.key(), record.value(), metadata.partition(),
+                        record.key(), record.value().length(), metadata.partition(),
                         metadata.offset(), elapsedTime);
             
 
