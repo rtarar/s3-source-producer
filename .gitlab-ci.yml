@@ -1,0 +1,15 @@
+before_script:
+  - docker info
+
+stages:
+  - build
+
+build_image:
+  stage: build
+  script:
+    - make docker-build || make docker-stop
+  only:
+    - master
+  tags:
+    - eip
+
