@@ -1,7 +1,7 @@
 package gov.cdc.ncezid.eip.kafka;
 
 import java.io.BufferedReader;
-
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Properties;
 import java.util.TimerTask;
@@ -16,7 +16,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.errors.WakeupException;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -32,9 +33,12 @@ import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
+import gov.cdc.ncezid.eip.kafka.exception.WorkerException;
+import gov.cdc.ncezid.eip.kafka.helper.ResourceHelper;
+
 public class S3Producer extends TimerTask{
 	
-	private static final Logger logger = Logger.getLogger(S3Producer.class);
+	private static final Logger logger = LoggerFactory.getLogger(S3Producer.class);
 
 	protected final String outgoingTopicName;
 	protected final String errorTopicName;
@@ -45,7 +49,8 @@ public class S3Producer extends TimerTask{
 	protected final String s3SourcePrefix;
 	protected final String s3ProcessedPrefix;
 	protected final AmazonS3 s3client;
-	KafkaProducer<String,String> producer;
+	protected final String pollIntervalMillis;
+	private KafkaProducer<String,String> producer;
 	protected  Properties props;
 
 	
@@ -55,7 +60,7 @@ public class S3Producer extends TimerTask{
 		throw new IllegalArgumentException("This constructor should not be used.");
 	}
 	
-	public S3Producer(String kafkaBrokers, String outgoingTopicName, String errorTopicName,String s3accessKey , String s3Secret, String s3BucketName , String s3Sourceprefix, String s3ProcessedPrefix) {
+	public S3Producer(String kafkaBrokers, String outgoingTopicName, String errorTopicName,String s3accessKey , String s3Secret, String s3BucketName , String s3Sourceprefix, String s3ProcessedPrefix, String pollIntervalMillis)  throws Exception{
 		
 		this.kafkaBrokers = kafkaBrokers;
         this.outgoingTopicName = outgoingTopicName;
@@ -66,6 +71,7 @@ public class S3Producer extends TimerTask{
 		this.s3BucketName = s3BucketName;
 		this.s3ProcessedPrefix = s3ProcessedPrefix;
 		this.s3SourcePrefix = s3Sourceprefix;
+		this.pollIntervalMillis = pollIntervalMillis;
 		 
 		AWSCredentials credentials = new BasicAWSCredentials(
 	      		  s3AccessKey, 
@@ -77,31 +83,43 @@ public class S3Producer extends TimerTask{
 	      		  .withCredentials(new AWSStaticCredentialsProvider(credentials))
 	      		  .withRegion(Regions.US_EAST_1)
 	      		  .build();
+		try {
+		    String clientID = ResourceHelper.getProperty(ProducerConfig.CLIENT_ID_CONFIG);
+		    String acks = ResourceHelper.getProperty(ProducerConfig.ACKS_CONFIG);
+		    String keySer = ResourceHelper.getProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG);
+		    String valSer = ResourceHelper.getProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG);
+		    String retries = ResourceHelper.getProperty(ProducerConfig.RETRIES_CONFIG);
+		    String linger = ResourceHelper.getProperty(ProducerConfig.LINGER_MS_CONFIG);
+			
+			Properties props = new Properties();
+	        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,kafkaBrokers);
+	        props.put(ProducerConfig.CLIENT_ID_CONFIG, clientID);
+	        //props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "mguid123");
+	        props.put(ProducerConfig.ACKS_CONFIG, acks);
+	        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, keySer);
+	        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valSer);
+	        props.put(ProducerConfig.RETRIES_CONFIG, retries);
+	        props.put(ProducerConfig.LINGER_MS_CONFIG, linger);
+            this.props = props;
+		}catch(IOException ioe) {
+			//abort cant start without this
+			throw new WorkerException("Could not load or find Producer config entries"+ioe.getMessage());
+		}
 		
+		Thread.currentThread().setContextClassLoader(null);//make sure that classloader loads all Kafka Libs
 		
-		Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,kafkaBrokers);
-        props.put(ProducerConfig.CLIENT_ID_CONFIG, "KafkaExampleProducer");
-        //props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "mguid123");
-        props.put(ProducerConfig.ACKS_CONFIG, "1");
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        props.put(ProducerConfig.RETRIES_CONFIG, "3");
-        props.put(ProducerConfig.LINGER_MS_CONFIG, "1");
-        this.props = props;
-        
-        this.producer = new KafkaProducer<String,String>(props);
-		
+		this.producer = new KafkaProducer<String,String>(props);
 	}
 
 	public void run() {
-		logger.debug("Starting..run.");
-		System.out.println("Starting..run.");
+		logger.debug("Producer Waking up ..");
+		System.out.println("Producer Waking up ..");
 		try {
 			//get messages from S3
 			getDataFromS3();
 		} catch (WakeupException e) {
 			// ignore for shutdown
+			logger.error("Error in producing records.",e);
 		} finally {
 			
 		}
@@ -143,10 +161,12 @@ public class S3Producer extends TimerTask{
 								
 								long elapsedTime = System.currentTimeMillis() - time;
 				                if (metadata != null) {
-				                    System.out.printf("sent record(key=%s valuelength=%s) " +
+				                	String message = String.format("sent record(key=%s valuelength=%s) " +
 				                                    "meta(partition=%d, offset=%d) time=%d\n",
 				                            record.key(), record.value().length(), metadata.partition(),
 				                            metadata.offset(), elapsedTime);
+				                	logger.info(message);
+				                    //System.out.printf(message);
 				                    //success move the s3 file from incoming to processed
 				                    s3FileMove(record.key(),true);
 				                } else {
@@ -166,7 +186,9 @@ public class S3Producer extends TimerTask{
 	        	}
 	        }
       }else {
-      	System.out.println("No Files found in S3 Bucket : "+s3BucketName+" and folder "+s3SourcePrefix+" to process , will check back later.");
+    	String message = "No Files found in S3 Bucket : "+s3BucketName+" and folder "+s3SourcePrefix+" to process , will check back later in :"+pollIntervalMillis+" milliseconds";  
+    	logger.info(message);  
+      	//System.out.println(message);
       }
 	}
 
