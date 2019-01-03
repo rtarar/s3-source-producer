@@ -34,16 +34,17 @@
 		</dependency>
 		
 		
-  	<dependency>
+  		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.5</version>
 		</dependency>
 		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.8.0</version>
+		    <groupId>com.jayway.jsonpath</groupId>
+		    <artifactId>json-path</artifactId>
+		    <version>2.4.0</version>
 		</dependency>
+		
 		<dependency>
     	<groupId>com.amazonaws</groupId>
     		<artifactId>aws-java-sdk</artifactId>

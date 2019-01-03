@@ -37,6 +37,7 @@ public class ResourceHelper {
 	public static final String CONST_ENV_VAR_INDEXING_URL = "INDEXING_URL";
 	public static final String  CONST_ENV_VAR_PRODUCER_CLIENT_ID = "CLIENT_ID_CONFIG";
 	public static final String  CONST_ENV_VAR_POLL_INTERVAL_MILLIS = "POLL_INTERVAL_MILLIS";
+	public static final String  CONST_ENV_VAR_SQS_URL="SQS_URL"; 
 	
 	private ResourceHelper() {
 		throw new IllegalAccessError("Helper class");

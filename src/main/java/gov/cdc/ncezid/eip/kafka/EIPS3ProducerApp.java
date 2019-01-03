@@ -53,6 +53,7 @@ public class EIPS3ProducerApp {
 		String s3BucketName = ResourceHelper.getSysEnvProperty(ResourceHelper.CONST_ENV_VAR_S3_BUCKET_NAME,true);
 		String s3SourcePrefix = ResourceHelper.getSysEnvProperty(ResourceHelper.CONST_ENV_VAR_S3_INCOMING_PREFIX,true);
 		String s3ProcessedPrefix= ResourceHelper.getSysEnvProperty(ResourceHelper.CONST_ENV_VAR_S3_PROCESSED_PREFIX,true);
+		String sqsUrl= ResourceHelper.getSysEnvProperty(ResourceHelper.CONST_ENV_VAR_SQS_URL,true);
 		String storageUrl = ResourceHelper.getSysEnvProperty(ResourceHelper.CONST_ENV_VAR_STORAGE_URL,false);
 		String pollIntervalMillis = ResourceHelper.getSysEnvProperty(ResourceHelper.CONST_ENV_VAR_POLL_INTERVAL_MILLIS,true);
 
@@ -68,7 +69,9 @@ public class EIPS3ProducerApp {
 											  s3BucketName , 
 											  s3SourcePrefix, 
 											  s3ProcessedPrefix,
-											  pollIntervalMillis);
+											  pollIntervalMillis,
+											  sqsUrl
+												);
 		
 		
 		Timer timer = new Timer();

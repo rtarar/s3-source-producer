@@ -3,6 +3,7 @@ package gov.cdc.ncezid.eip.kafka;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Properties;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
@@ -16,6 +17,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.errors.WakeupException;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +34,11 @@ import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.services.sqs.AmazonSQS;
+import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
+import com.amazonaws.services.sqs.model.DeleteMessageResult;
+import com.amazonaws.services.sqs.model.Message;
+import com.jayway.jsonpath.JsonPath;
 
 import gov.cdc.ncezid.eip.kafka.exception.WorkerException;
 import gov.cdc.ncezid.eip.kafka.helper.ResourceHelper;
@@ -49,6 +56,8 @@ public class S3Producer extends TimerTask{
 	protected final String s3SourcePrefix;
 	protected final String s3ProcessedPrefix;
 	protected final AmazonS3 s3client;
+	protected final AmazonSQS sqsClient;
+	protected final String sqsUrl;
 	protected final String pollIntervalMillis;
 	private KafkaProducer<String,String> producer;
 	protected  Properties props;
@@ -60,7 +69,7 @@ public class S3Producer extends TimerTask{
 		throw new IllegalArgumentException("This constructor should not be used.");
 	}
 	
-	public S3Producer(String kafkaBrokers, String outgoingTopicName, String errorTopicName,String s3accessKey , String s3Secret, String s3BucketName , String s3Sourceprefix, String s3ProcessedPrefix, String pollIntervalMillis)  throws Exception{
+	public S3Producer(String kafkaBrokers, String outgoingTopicName, String errorTopicName,String s3accessKey , String s3Secret, String s3BucketName , String s3Sourceprefix, String s3ProcessedPrefix, String pollIntervalMillis, String sqsUrl)  throws Exception{
 		
 		this.kafkaBrokers = kafkaBrokers;
         this.outgoingTopicName = outgoingTopicName;
@@ -72,6 +81,7 @@ public class S3Producer extends TimerTask{
 		this.s3ProcessedPrefix = s3ProcessedPrefix;
 		this.s3SourcePrefix = s3Sourceprefix;
 		this.pollIntervalMillis = pollIntervalMillis;
+		this.sqsUrl = sqsUrl;
 		 
 		AWSCredentials credentials = new BasicAWSCredentials(
 	      		  s3AccessKey, 
@@ -83,6 +93,15 @@ public class S3Producer extends TimerTask{
 	      		  .withCredentials(new AWSStaticCredentialsProvider(credentials))
 	      		  .withRegion(Regions.US_EAST_1)
 	      		  .build();
+	    
+	    this.sqsClient = AmazonSQSClientBuilder
+	    					.standard()
+	    					.withCredentials(new AWSStaticCredentialsProvider(credentials))
+	    					.withRegion(Regions.US_EAST_1)
+	    					.build();
+	    					
+	    
+	    
 		try {
 		    String clientID = ResourceHelper.getProperty(ProducerConfig.CLIENT_ID_CONFIG);
 		    String acks = ResourceHelper.getProperty(ProducerConfig.ACKS_CONFIG);
@@ -113,10 +132,13 @@ public class S3Producer extends TimerTask{
 
 	public void run() {
 		logger.debug("Producer Waking up ..");
-		System.out.println("Producer Waking up ..");
+		System.out.println("Producer Waking up ...");
 		try {
 			//get messages from S3
-			getDataFromS3();
+			//getDataFromS3();
+			
+			//check SQS for messages
+			getSQSMessages();
 		} catch (WakeupException e) {
 			// ignore for shutdown
 			logger.error("Error in producing records.",e);
@@ -126,85 +148,80 @@ public class S3Producer extends TimerTask{
 		
 	}
 	
+	
+	private void getSQSMessages() {
+		List<Message> messages = sqsClient.receiveMessage(sqsUrl).getMessages();
+		
+		// delete messages from the queue
+        for (Message m : messages) {
+        	logger.debug("Got message .."+m.getMessageId());
+        	produceData(m);
+        }
+	}
+	
+	private String getKeyMguid(String body){
+		String value = readStringJSON(body, "$..Records[0].s3.object.key");
+		String key = value.substring(value.indexOf("/")+1, value.length());
+		return key;
+	}
+	
+	
+	private void produceData(Message m) {
+		String key = getKeyMguid(m.getBody());
+		S3Object s3Object = s3client.getObject(new GetObjectRequest(s3BucketName,key));
+    	BufferedReader reader = new BufferedReader(new InputStreamReader(s3Object.getObjectContent()));
+        String s3Data = reader.lines().collect(Collectors.joining("\n")); 
+      
+          final long time = System.currentTimeMillis();
+            try {
+            	  final ProducerRecord<String, String> record = new ProducerRecord<String, String>(outgoingTopicName,key,s3Data);
+            	  producer.send(record , new org.apache.kafka.clients.producer.Callback() {
+				  public void onCompletion(RecordMetadata metadata, Exception exception) {
+						
+				  long elapsedTime = System.currentTimeMillis() - time;
+		          if (metadata != null) {
+		               		String message = String.format("sent record(key=%s valuelength=%s) " +
+		                                    "meta(partition=%d, offset=%d) time=%d\n",
+		                            record.key(), record.value().length(), metadata.partition(),
+		                            metadata.offset(), elapsedTime);
+		                	logger.info(message);
+		                	//delete message from queue
+		                	DeleteMessageResult r = sqsClient.deleteMessage(sqsUrl, m.getReceiptHandle());
+		                	logger.info(r.getSdkResponseMetadata().getRequestId());
+		                } else {
+		                    exception.printStackTrace();
+		                }
+					}
+				}); 
+                  
+            }catch(Exception e) {
+            	e.printStackTrace();
+            }finally {
+            	//producer.close();
+            }
+      	}
 
-	private void getDataFromS3() {
-      ListObjectsRequest lor = new ListObjectsRequest()
-              .withBucketName(s3BucketName)
-              .withPrefix(s3SourcePrefix)
-              .withDelimiter("/");
-      
-      ObjectListing objectListing = s3client.listObjects(lor);
-      int numrecords = objectListing.getObjectSummaries().size()-1; //dont count the folder
-      
-      if(numrecords>0) {
-      	System.out.println((numrecords) +" Files found in S3 Bucket : "+s3BucketName+" and folder "+s3SourcePrefix+" to process.");
-	        for(S3ObjectSummary os : objectListing.getObjectSummaries()) {
-	        	
-	        	logger.info(os.getKey());
-	        	//System.out.println(os.getKey()+":"+os.getSize()+":"+os.getLastModified()+":"+os.getETag());
-	        	S3Object s3Object = s3client.getObject(new GetObjectRequest(s3BucketName,os.getKey()));
-	        	BufferedReader reader = new BufferedReader(new InputStreamReader(s3Object.getObjectContent()));
-	            String s3Data = reader.lines().collect(Collectors.joining("\n")); 
-	          
-	            if(os.getKey().contains("json")) {
-		           // System.out.println(s3Data);
-	              final long time = System.currentTimeMillis();
-	              final CountDownLatch countDownLatch = new CountDownLatch(numrecords);
-	            	
-		            try {
-		            	  final ProducerRecord<String, String> record = new ProducerRecord<String, String>(outgoingTopicName,os.getKey(),s3Data);
-		            	  
-		            	    
-		            	  producer.send(record , new org.apache.kafka.clients.producer.Callback() {
-							
-							public void onCompletion(RecordMetadata metadata, Exception exception) {
-								
-								long elapsedTime = System.currentTimeMillis() - time;
-				                if (metadata != null) {
-				                	String message = String.format("sent record(key=%s valuelength=%s) " +
-				                                    "meta(partition=%d, offset=%d) time=%d\n",
-				                            record.key(), record.value().length(), metadata.partition(),
-				                            metadata.offset(), elapsedTime);
-				                	logger.info(message);
-				                    //System.out.printf(message);
-				                    //success move the s3 file from incoming to processed
-				                    s3FileMove(record.key(),true);
-				                } else {
-				                    exception.printStackTrace();
-				                }
-				                countDownLatch.countDown();
-							}
-						}); 
-		                  
-		            	//  sendMessage(s3Data, outgoingTopicName);
-		            	//  s3FileMove(s3client,s3Object,false);
-		            }catch(Exception e) {
-		            	e.printStackTrace();
-		            }finally {
-		            	//producer.close();
-		            }
-	        	}
-	        }
-      }else {
-    	String message = "No Files found in S3 Bucket : "+s3BucketName+" and folder "+s3SourcePrefix+" to process , will check back later in :"+pollIntervalMillis+" milliseconds";  
-    	logger.info(message);  
-      	//System.out.println(message);
-      }
+
+	
+	
+	private String readStringJSON(String obj , String path) {
+		String value = "";
+		if(obj!=null) {
+		
+			Object objVal = JsonPath.read(obj, path);
+			if (objVal instanceof net.minidev.json.JSONArray) {
+				net.minidev.json.JSONArray objValArr = (net.minidev.json.JSONArray)objVal;
+				for(int i=0;i<objValArr.size();i++) {
+					value += objValArr.get(i).toString(); 
+				}
+			}
+			
+		} 
+		return value;
 	}
 
-	private   void s3FileMove(String key , boolean delete) {
-    	String oldkey = key;
-    	String destinationKey = oldkey.replace(s3SourcePrefix,s3ProcessedPrefix);
-    	//System.out.println(destinationKey);
-    	CopyObjectRequest cpr = new CopyObjectRequest(s3BucketName, oldkey, s3BucketName, destinationKey);
-    	s3client.copyObject(cpr);
-    	if(delete) {
-	    	DeleteObjectsRequest dor = new DeleteObjectsRequest(s3BucketName)
-	    								.withKeys(oldkey);
-	    	s3client.deleteObjects(dor);
-    	}
-    }
 	
+
 	
 	
 }
