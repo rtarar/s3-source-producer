@@ -171,6 +171,7 @@ public class S3Producer extends TimerTask{
 		S3Object s3Object = s3client.getObject(new GetObjectRequest(s3BucketName,key));
     	BufferedReader reader = new BufferedReader(new InputStreamReader(s3Object.getObjectContent()));
         String s3Data = reader.lines().collect(Collectors.joining("\n")); 
+        final  String handle = m.getReceiptHandle();
       
           final long time = System.currentTimeMillis();
             try {
@@ -186,7 +187,7 @@ public class S3Producer extends TimerTask{
 		                            metadata.offset(), elapsedTime);
 		                	logger.info(message);
 		                	//delete message from queue
-		                	DeleteMessageResult r = sqsClient.deleteMessage(sqsUrl, m.getReceiptHandle());
+		                	DeleteMessageResult r = sqsClient.deleteMessage(sqsUrl, handle);
 		                	logger.info(r.getSdkResponseMetadata().getRequestId());
 		                } else {
 		                    exception.printStackTrace();
