@@ -31,8 +31,6 @@ public class ResourceHelper {
 	public static final String CONST_ENV_VAR_SCHEMA_REGISTRY_URL = "SCHEMA_REGISTRY_URL";
 	public static final String CONST_ENV_VAR_S3_ACCESS_KEY = "S3_ACCESS_KEY";
 	public static final String CONST_ENV_VAR_S3_SECRET = "S3_SECRET";
-	public static final String CONST_ENV_VAR_S3_INCOMING_PREFIX = "S3_INCOMING_PREFIX";
-	public static final String CONST_ENV_VAR_S3_PROCESSED_PREFIX = "S3_PROCESSED_PREFIX";
 	public static final String CONST_ENV_VAR_STORAGE_URL = "STORAGE_URL";
 	public static final String CONST_ENV_VAR_INDEXING_URL = "INDEXING_URL";
 	public static final String  CONST_ENV_VAR_PRODUCER_CLIENT_ID = "CLIENT_ID_CONFIG";

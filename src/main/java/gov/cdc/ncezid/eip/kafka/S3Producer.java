@@ -53,8 +53,6 @@ public class S3Producer extends TimerTask{
 	protected final String s3AccessKey;
 	protected final String s3Secret;
 	protected final String s3BucketName;
-	protected final String s3SourcePrefix;
-	protected final String s3ProcessedPrefix;
 	protected final AmazonS3 s3client;
 	protected final AmazonSQS sqsClient;
 	protected final String sqsUrl;
@@ -69,7 +67,7 @@ public class S3Producer extends TimerTask{
 		throw new IllegalArgumentException("This constructor should not be used.");
 	}
 	
-	public S3Producer(String kafkaBrokers, String outgoingTopicName, String errorTopicName,String s3accessKey , String s3Secret, String s3BucketName , String s3Sourceprefix, String s3ProcessedPrefix, String pollIntervalMillis, String sqsUrl)  throws Exception{
+	public S3Producer(String kafkaBrokers, String outgoingTopicName, String errorTopicName,String s3accessKey , String s3Secret, String s3BucketName , String pollIntervalMillis, String sqsUrl)  throws Exception{
 		
 		this.kafkaBrokers = kafkaBrokers;
         this.outgoingTopicName = outgoingTopicName;
@@ -78,8 +76,6 @@ public class S3Producer extends TimerTask{
 		this.s3AccessKey = s3accessKey;
 		this.s3Secret = s3Secret;
 		this.s3BucketName = s3BucketName;
-		this.s3ProcessedPrefix = s3ProcessedPrefix;
-		this.s3SourcePrefix = s3Sourceprefix;
 		this.pollIntervalMillis = pollIntervalMillis;
 		this.sqsUrl = sqsUrl;
 		 
@@ -99,8 +95,6 @@ public class S3Producer extends TimerTask{
 	    					.withCredentials(new AWSStaticCredentialsProvider(credentials))
 	    					.withRegion(Regions.US_EAST_1)
 	    					.build();
-	    					
-	    
 	    
 		try {
 		    String clientID = ResourceHelper.getProperty(ProducerConfig.CLIENT_ID_CONFIG);
@@ -147,7 +141,6 @@ public class S3Producer extends TimerTask{
 		}
 		
 	}
-	
 	
 	private void getSQSMessages() {
 		List<Message> messages = sqsClient.receiveMessage(sqsUrl).getMessages();
@@ -201,8 +194,6 @@ public class S3Producer extends TimerTask{
             	//producer.close();
             }
       	}
-
-
 	
 	
 	private String readStringJSON(String obj , String path) {
@@ -220,9 +211,5 @@ public class S3Producer extends TimerTask{
 		} 
 		return value;
 	}
-
-	
-
-	
 	
 }
