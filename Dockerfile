@@ -1,4 +1,16 @@
-FROM openjdk:8-jre-alpine
+# build stage
+FROM maven:3-jdk-11 as builder
+RUN mkdir -p /usr/src/app
+COPY . /usr/src/app
+WORKDIR /usr/src/app
+RUN mvn clean package -DskipTests=true
+
+
+#Create Image Stage:
+FROM openjdk:11-jre-slim
+
+VOLUME /tmp
+
 
 ARG PIPELINE_NAME
 ARG GROUP_NAME
@@ -22,5 +34,6 @@ ENV S3_ACCESS_KEY ${S3_ACCESS_KEY}
 ENV S3_SECRET ${S3_SECRET}
 ENV SQS_URL ${SQS_URL}
 
-COPY target/s3-source-producer-*-jar-with-dependencies.jar /app.jar
-ENTRYPOINT java -jar /app.jar
+COPY --from=builder  /usr/src/app/target/*with-dependencies.jar ./app.jar
+
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "./app.jar"]
