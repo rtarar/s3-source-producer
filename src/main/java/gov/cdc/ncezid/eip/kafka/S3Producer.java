@@ -6,18 +6,26 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Properties;
 import java.util.TimerTask;
-import java.util.concurrent.CountDownLatch;
+
 import java.util.stream.Collectors;
 
+import io.confluent.kafka.serializers.KafkaAvroSerializer;
+import kafka.serializer.Decoder;
+import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig;
 
-
+import org.apache.avro.Schema;
+import org.apache.avro.generic.GenericData;
+import org.apache.avro.generic.GenericDatumReader;
+import org.apache.avro.generic.GenericRecord;
+import org.apache.avro.io.DatumReader;
+import org.apache.avro.io.DecoderFactory;
+import org.apache.avro.io.JsonDecoder;
+import org.apache.avro.specific.SpecificRecord;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.errors.WakeupException;
-import org.apache.kafka.common.serialization.StringSerializer;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +48,7 @@ import com.amazonaws.services.sqs.model.DeleteMessageResult;
 import com.amazonaws.services.sqs.model.Message;
 import com.jayway.jsonpath.JsonPath;
 
+import gov.cdc.ncezid.daas.avro.io.ExtendedJsonDecoder;
 import gov.cdc.ncezid.eip.kafka.exception.WorkerException;
 import gov.cdc.ncezid.eip.kafka.helper.ResourceHelper;
 
@@ -57,8 +66,10 @@ public class S3Producer extends TimerTask{
 	protected final AmazonSQS sqsClient;
 	protected final String sqsUrl;
 	protected final String pollIntervalMillis;
-	private KafkaProducer<String,String> producer;
+	protected final String schemaRegistryUrl;
+	private KafkaProducer<String, GenericRecord> producer;
 	protected  Properties props;
+	protected final Schema schema;
 
 	
     
@@ -67,17 +78,19 @@ public class S3Producer extends TimerTask{
 		throw new IllegalArgumentException("This constructor should not be used.");
 	}
 	
-	public S3Producer(String kafkaBrokers, String outgoingTopicName, String errorTopicName,String s3accessKey , String s3Secret, String s3BucketName , String pollIntervalMillis, String sqsUrl)  throws Exception{
+	public S3Producer(String kafkaBrokers, String outgoingTopicName, String errorTopicName,String s3accessKey , String s3Secret, String s3BucketName , String pollIntervalMillis, String sqsUrl,String schemaRegistryUrl)  throws Exception{
 		
 		this.kafkaBrokers = kafkaBrokers;
         this.outgoingTopicName = outgoingTopicName;
 		this.errorTopicName = errorTopicName;
+	
 		
 		this.s3AccessKey = s3accessKey;
 		this.s3Secret = s3Secret;
 		this.s3BucketName = s3BucketName;
 		this.pollIntervalMillis = pollIntervalMillis;
 		this.sqsUrl = sqsUrl;
+		this.schemaRegistryUrl = schemaRegistryUrl;
 		 
 		AWSCredentials credentials = new BasicAWSCredentials(
 	      		  s3AccessKey, 
@@ -97,12 +110,16 @@ public class S3Producer extends TimerTask{
 	    					.build();
 	    
 		try {
+			//load the schema from resources
+			this.schema = loadSchema();
+			
 		    String clientID = ResourceHelper.getProperty(ProducerConfig.CLIENT_ID_CONFIG);
 		    String acks = ResourceHelper.getProperty(ProducerConfig.ACKS_CONFIG);
 		    String keySer = ResourceHelper.getProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG);
 		    String valSer = ResourceHelper.getProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG);
 		    String retries = ResourceHelper.getProperty(ProducerConfig.RETRIES_CONFIG);
 		    String linger = ResourceHelper.getProperty(ProducerConfig.LINGER_MS_CONFIG);
+		    
 			
 			Properties props = new Properties();
 	        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,kafkaBrokers);
@@ -113,6 +130,7 @@ public class S3Producer extends TimerTask{
 	        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valSer);
 	        props.put(ProducerConfig.RETRIES_CONFIG, retries);
 	        props.put(ProducerConfig.LINGER_MS_CONFIG, linger);
+	        props.put(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, schemaRegistryUrl);
             this.props = props;
 		}catch(IOException ioe) {
 			//abort cant start without this
@@ -121,8 +139,16 @@ public class S3Producer extends TimerTask{
 		
 		Thread.currentThread().setContextClassLoader(null);//make sure that classloader loads all Kafka Libs
 		
-		this.producer = new KafkaProducer<String,String>(props);
+		this.producer = new KafkaProducer<String,GenericRecord>(props);
 	}
+	
+	private Schema loadSchema() throws IOException{
+		 
+		String userSchema = ResourceHelper.getSchemabyName("MessageEvent.avsc");
+		Schema.Parser parser = new Schema.Parser();
+		return parser.parse(userSchema);
+	}
+
 
 	public void run() {
 		logger.debug("Producer Waking up ..");
@@ -159,24 +185,38 @@ public class S3Producer extends TimerTask{
 	}
 	
 	
+	
+	private GenericRecord getGenericRecord(String data) throws IOException{
+        DecoderFactory decoderFactory = new DecoderFactory();
+        //JsonDecoder decoder = decoderFactory.jsonDecoder(schema, data);
+        org.apache.avro.io.Decoder decoder = new ExtendedJsonDecoder(schema, data);
+        DatumReader<GenericData.Record> dreader = new GenericDatumReader<GenericData.Record>(schema);
+       return dreader.read(null, decoder);
+	}
+	
 	private void produceData(Message m) {
 		String key = getKeyMguid(m.getBody());
-		S3Object s3Object = s3client.getObject(new GetObjectRequest(s3BucketName,key));
-    	BufferedReader reader = new BufferedReader(new InputStreamReader(s3Object.getObjectContent()));
-        String s3Data = reader.lines().collect(Collectors.joining("\n")); 
-        final  String handle = m.getReceiptHandle();
-      
-          final long time = System.currentTimeMillis();
-            try {
-            	  final ProducerRecord<String, String> record = new ProducerRecord<String, String>(outgoingTopicName,key,s3Data);
-            	  producer.send(record , new org.apache.kafka.clients.producer.Callback() {
+		logger.debug("Got key .."+key);
+		System.out.println("Got key .."+key);
+		
+		try {
+			if(key!=null && !key.isEmpty() && s3client.doesObjectExist(s3BucketName, key)) {
+				  S3Object s3Object = s3client.getObject(new GetObjectRequest(s3BucketName,key));
+			      BufferedReader reader = new BufferedReader(new InputStreamReader(s3Object.getObjectContent()));
+			      String s3Data = reader.lines().collect(Collectors.joining("\n")); 
+			      System.out.println("Got Message from S3 .."+s3Data);
+			      final  String handle = m.getReceiptHandle();
+		          final long time = System.currentTimeMillis();
+		          GenericRecord genericRecord = getGenericRecord(s3Data);
+		    	  final ProducerRecord<String, GenericRecord> record = new ProducerRecord<String, GenericRecord>(outgoingTopicName,key,genericRecord);
+		    	  producer.send(record , new org.apache.kafka.clients.producer.Callback() {
 				  public void onCompletion(RecordMetadata metadata, Exception exception) {
 						
 				  long elapsedTime = System.currentTimeMillis() - time;
 		          if (metadata != null) {
 		               		String message = String.format("sent record(key=%s valuelength=%s) " +
 		                                    "meta(partition=%d, offset=%d) time=%d\n",
-		                            record.key(), record.value().length(), metadata.partition(),
+		                            record.key(), (record.value().toString().length()), metadata.partition(),
 		                            metadata.offset(), elapsedTime);
 		                	logger.info(message);
 		                	//delete message from queue
@@ -187,7 +227,9 @@ public class S3Producer extends TimerTask{
 		                }
 					}
 				}); 
-                  
+			  }else {
+				  logger.info("Key: "+key+" not found on the S3 bucket:"+s3BucketName);
+		      }
             }catch(Exception e) {
             	e.printStackTrace();
             }finally {

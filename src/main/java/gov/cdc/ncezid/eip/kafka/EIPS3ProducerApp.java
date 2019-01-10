@@ -54,6 +54,7 @@ public class EIPS3ProducerApp {
 		String sqsUrl= ResourceHelper.getSysEnvProperty(ResourceHelper.CONST_ENV_VAR_SQS_URL,true);
 		String storageUrl = ResourceHelper.getSysEnvProperty(ResourceHelper.CONST_ENV_VAR_STORAGE_URL,false);
 		String pollIntervalMillis = ResourceHelper.getSysEnvProperty(ResourceHelper.CONST_ENV_VAR_POLL_INTERVAL_MILLIS,true);
+		String schemaRegistryUrl =ResourceHelper.getSysEnvProperty(ResourceHelper.CONST_ENV_VAR_SCHEMA_REGISTRY_URL,true);
 
 		
 		
@@ -66,7 +67,7 @@ public class EIPS3ProducerApp {
 											  s3Secret, 
 											  s3BucketName , 
 											  pollIntervalMillis,
-											  sqsUrl
+											  sqsUrl,schemaRegistryUrl
 												);
 		
 		

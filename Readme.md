@@ -37,6 +37,7 @@ In order for the producer to run it needs configurations. Below are the list of 
 	S3_ACCESS_KEY=AKIAIHX6U5QGJDZGPVIA
 	S3_SECRET=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
 	SQS_URL=https://sqs.us-east-1.amazonaws.com/626636711996/eip-legacy-dev
+	SCHEMA_REGISTRY_URL=http://sdl-dev01.biotech.cdc.gov:8081
 
 ```
 I have included a helper bash script to start the producer just run the following to start the producer

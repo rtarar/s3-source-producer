@@ -1,15 +1,21 @@
 package gov.cdc.ncezid.eip.kafka.helper;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-
+import org.apache.zookeeper.common.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig;
 
 
 public class ResourceHelper {
@@ -19,6 +25,8 @@ public class ResourceHelper {
 	private static final String APPLICATION_PROPERTIES_PATH = "/application.properties";
 	private static final String CONFIG_PROPERTIES_PATH = "/config.properties";
 	private static final String CONFIG_SERVICES_PATH = "/config-services.properties";
+	private static final String CONFIG_SCHEMA_PATH = "/schema/";
+	
 	private static Properties properties = null;
 
 	public static final String CONST_ENV_VAR_PIPELINE_NAME = "PIPELINE_NAME";
@@ -36,6 +44,7 @@ public class ResourceHelper {
 	public static final String  CONST_ENV_VAR_PRODUCER_CLIENT_ID = "CLIENT_ID_CONFIG";
 	public static final String  CONST_ENV_VAR_POLL_INTERVAL_MILLIS = "POLL_INTERVAL_MILLIS";
 	public static final String  CONST_ENV_VAR_SQS_URL="SQS_URL"; 
+	
 	
 	private ResourceHelper() {
 		throw new IllegalAccessError("Helper class");
@@ -90,6 +99,16 @@ public class ResourceHelper {
 			throw new Exception("The environment variable `" + propertyName + "` is empty.");
 		}
 		return value;
+	}
+	
+	public static String getSchemabyName(String name) throws IOException{
+		String strSchema = "";
+		
+		InputStream is =  ResourceHelper.class.getResourceAsStream(CONFIG_SCHEMA_PATH+name);
+		strSchema = new BufferedReader(new InputStreamReader(is))
+				  .lines().collect(Collectors.joining("\n"));
+	    is.close();
+	    return strSchema;
 	}
 
 
