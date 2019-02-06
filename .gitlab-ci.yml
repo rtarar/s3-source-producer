@@ -1,15 +1,13 @@
-before_script:
-  - docker info
-
 stages:
   - build
-
-build_image:
+ 
+before_script:
+  - docker info
+   
+build:
   stage: build
   script:
-    - make docker-build || make docker-stop
+    - 'docker build -t eds/s3-source-services .'
   only:
     - master
-  tags:
-    - eip
-
+  image: docker:stable
