@@ -6,21 +6,16 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Properties;
 import java.util.TimerTask;
-
 import java.util.stream.Collectors;
-
-import io.confluent.kafka.serializers.KafkaAvroSerializer;
-import kafka.serializer.Decoder;
-import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig;
 
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericData;
+import org.apache.avro.generic.GenericData.Record;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.DatumReader;
 import org.apache.avro.io.DecoderFactory;
 import org.apache.avro.io.JsonDecoder;
-import org.apache.avro.specific.SpecificRecord;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -35,13 +30,8 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.CopyObjectRequest;
-import com.amazonaws.services.s3.model.DeleteObjectsRequest;
 import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.ListObjectsRequest;
-import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.DeleteMessageResult;
@@ -51,6 +41,7 @@ import com.jayway.jsonpath.JsonPath;
 import gov.cdc.ncezid.daas.avro.io.ExtendedJsonDecoder;
 import gov.cdc.ncezid.eip.kafka.exception.WorkerException;
 import gov.cdc.ncezid.eip.kafka.helper.ResourceHelper;
+import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig;
 
 public class S3Producer extends TimerTask{
 	
@@ -67,10 +58,10 @@ public class S3Producer extends TimerTask{
 	protected final String sqsUrl;
 	protected final String pollIntervalMillis;
 	protected final String schemaRegistryUrl;
-	private KafkaProducer<String, GenericRecord> producer;
+	private KafkaProducer<GenericRecord, GenericRecord> producer;
 	protected  Properties props;
 	protected final Schema schema;
-
+	protected final Schema schemaKey;
 	
     
 	
@@ -112,15 +103,14 @@ public class S3Producer extends TimerTask{
 		try {
 			//load the schema from resources
 			this.schema = loadSchema();
-			
+			this.schemaKey = loadSchemaKey();
 		    String clientID = ResourceHelper.getProperty(ProducerConfig.CLIENT_ID_CONFIG);
 		    String acks = ResourceHelper.getProperty(ProducerConfig.ACKS_CONFIG);
 		    String keySer = ResourceHelper.getProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG);
 		    String valSer = ResourceHelper.getProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG);
 		    String retries = ResourceHelper.getProperty(ProducerConfig.RETRIES_CONFIG);
 		    String linger = ResourceHelper.getProperty(ProducerConfig.LINGER_MS_CONFIG);
-		    
-			
+		    			
 			Properties props = new Properties();
 	        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,kafkaBrokers);
 	        props.put(ProducerConfig.CLIENT_ID_CONFIG, clientID);
@@ -139,7 +129,7 @@ public class S3Producer extends TimerTask{
 		
 		Thread.currentThread().setContextClassLoader(null);//make sure that classloader loads all Kafka Libs
 		
-		this.producer = new KafkaProducer<String,GenericRecord>(props);
+		this.producer = new KafkaProducer<GenericRecord,GenericRecord>(props);
 	}
 	
 	private Schema loadSchema() throws IOException{
@@ -148,7 +138,12 @@ public class S3Producer extends TimerTask{
 		Schema.Parser parser = new Schema.Parser();
 		return parser.parse(userSchema);
 	}
-
+	private Schema loadSchemaKey() throws IOException{
+		 
+		String userSchema = ResourceHelper.getSchemabyName("MessageKey.avsc");
+		Schema.Parser parser = new Schema.Parser();
+		return parser.parse(userSchema);
+	}
 
 	public void run() {
 		logger.debug("Producer Waking up ..");
@@ -181,17 +176,30 @@ public class S3Producer extends TimerTask{
 	private String getKeyMguid(String body){
 		String value = readStringJSON(body, "$..Records[0].s3.object.key");
 		String key = value.substring(value.indexOf("/")+1, value.length());
+		
+		
 		return key;
 	}
 	
 	
 	
 	private GenericRecord getGenericRecord(String data) throws IOException{
+		System.out.println("=> Value: "+data);
         DecoderFactory decoderFactory = new DecoderFactory();
         //JsonDecoder decoder = decoderFactory.jsonDecoder(schema, data);
         org.apache.avro.io.Decoder decoder = new ExtendedJsonDecoder(schema, data);
         DatumReader<GenericData.Record> dreader = new GenericDatumReader<GenericData.Record>(schema);
        return dreader.read(null, decoder);
+	}
+	
+	private GenericRecord getGenericRecordKey(String data) throws IOException {
+		System.out.println("=> Key: "+ data);
+        DecoderFactory decoderFactory = new DecoderFactory();
+        JsonDecoder decoder = decoderFactory.jsonDecoder(schemaKey, data);
+        //org.apache.avro.io.Decoder decoder = new ExtendedJsonDecoder(schemaKey, data);
+        DatumReader<GenericData.Record> dreader = new GenericDatumReader<GenericData.Record>(schemaKey);
+        Record record = dreader.read(null, decoder);
+       return record;		
 	}
 	
 	private void produceData(Message m) {
@@ -207,8 +215,10 @@ public class S3Producer extends TimerTask{
 			      System.out.println("Got Message from S3 .."+s3Data);
 			      final  String handle = m.getReceiptHandle();
 		          final long time = System.currentTimeMillis();
+		          GenericRecord genericKey = getGenericRecordKey("{\"messageGUID\":\""+key+"\"}");
 		          GenericRecord genericRecord = getGenericRecord(s3Data);
-		    	  final ProducerRecord<String, GenericRecord> record = new ProducerRecord<String, GenericRecord>(outgoingTopicName,key,genericRecord);
+		    	  final ProducerRecord<GenericRecord, GenericRecord> record = new ProducerRecord<GenericRecord, GenericRecord>(
+		    			  outgoingTopicName, genericKey, genericRecord);
 		    	  producer.send(record , new org.apache.kafka.clients.producer.Callback() {
 				  public void onCompletion(RecordMetadata metadata, Exception exception) {
 						

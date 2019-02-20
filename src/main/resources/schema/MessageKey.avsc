@@ -1,0 +1,12 @@
+{
+  "type": "record",
+  "name": "hl7messageKey",
+  "namespace": "gov.cdc.ncezid.daas.event.hl7message.schema",
+  "fields": [
+    {
+      "name": "messageGUID",
+      "type": "string",
+      "default": null
+    }
+   ]
+}

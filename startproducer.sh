@@ -1,6 +1,6 @@
 export PIPELINE_NAME=EIPPLUS
 export GROUP_NAME=S3PRODUCER
-export OUTGOING_TOPIC_NAME=eip-s3-hl7
+export OUTGOING_TOPIC_NAME=eip-s3-hl7-new3
 export ERROR_TOPIC_NAME=eip-error
 export KAFKA_BROKERS=sdl-dev01.biotech.cdc.gov:9092
 export POLL_INTERVAL_MILLIS=2000
