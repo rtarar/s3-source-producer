@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package gov.cdc.ncezid.daas.event.hl7message.schema;
+package gov.cdc.ncezid.eip.ds.schema;
 
 import org.apache.avro.specific.SpecificData;
 import org.apache.avro.message.BinaryMessageEncoder;
@@ -12,23 +12,23 @@ import org.apache.avro.message.SchemaStore;
 
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
-public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 6664677225987970295L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"hl7messageEvent\",\"namespace\":\"gov.cdc.ncezid.daas.event.hl7message.schema\",\"fields\":[{\"name\":\"messageGUID\",\"type\":\"string\",\"default\":null},{\"name\":\"transportGUID\",\"type\":\"string\",\"default\":null},{\"name\":\"bhsGUID\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"batchPosition\",\"type\":\"long\",\"default\":null},{\"name\":\"fhsGUID\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"status\",\"type\":\"string\",\"default\":null},{\"name\":\"sender\",\"type\":\"string\",\"default\":null},{\"name\":\"condition\",\"type\":\"string\",\"default\":null},{\"name\":\"messageCode\",\"type\":\"string\",\"default\":null},{\"name\":\"triggerEvent\",\"type\":\"string\",\"default\":null},{\"name\":\"messageStructure\",\"type\":\"string\",\"default\":null},{\"name\":\"profile\",\"type\":\"string\",\"default\":null},{\"name\":\"versionId\",\"type\":\"string\",\"default\":null},{\"name\":\"createdBy\",\"type\":\"string\",\"default\":null},{\"name\":\"createdTime\",\"type\":\"long\",\"default\":null},{\"name\":\"updatedBy\",\"type\":\"string\",\"default\":null},{\"name\":\"updatedTime\",\"type\":\"long\",\"default\":null},{\"name\":\"content\",\"type\":\"string\",\"default\":null},{\"name\":\"md5\",\"type\":[\"null\",\"string\"],\"default\":null}]}");
+public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  private static final long serialVersionUID = 8965780866319885454L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"FDDEIPMessage\",\"namespace\":\"gov.cdc.ncezid.eip.ds.schema\",\"fields\":[{\"name\":\"messageGUID\",\"type\":\"string\",\"default\":null},{\"name\":\"transportGUID\",\"type\":\"string\",\"default\":null},{\"name\":\"bhsGUID\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"batchPosition\",\"type\":\"long\",\"default\":null},{\"name\":\"fhsGUID\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"status\",\"type\":\"string\",\"default\":null},{\"name\":\"sender\",\"type\":\"string\",\"default\":null},{\"name\":\"condition\",\"type\":\"string\",\"default\":null},{\"name\":\"messageCode\",\"type\":\"string\",\"default\":null},{\"name\":\"triggerEvent\",\"type\":\"string\",\"default\":null},{\"name\":\"messageStructure\",\"type\":\"string\",\"default\":null},{\"name\":\"profile\",\"type\":\"string\",\"default\":null},{\"name\":\"versionId\",\"type\":\"string\",\"default\":null},{\"name\":\"createdBy\",\"type\":\"string\",\"default\":null},{\"name\":\"createdTime\",\"type\":\"long\",\"default\":null},{\"name\":\"updatedBy\",\"type\":\"string\",\"default\":null},{\"name\":\"updatedTime\",\"type\":\"long\",\"default\":null},{\"name\":\"content\",\"type\":\"string\",\"default\":null},{\"name\":\"md5\",\"type\":[\"null\",\"string\"],\"default\":null}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
 
-  private static final BinaryMessageEncoder<hl7messageEvent> ENCODER =
-      new BinaryMessageEncoder<hl7messageEvent>(MODEL$, SCHEMA$);
+  private static final BinaryMessageEncoder<FDDEIPMessage> ENCODER =
+      new BinaryMessageEncoder<FDDEIPMessage>(MODEL$, SCHEMA$);
 
-  private static final BinaryMessageDecoder<hl7messageEvent> DECODER =
-      new BinaryMessageDecoder<hl7messageEvent>(MODEL$, SCHEMA$);
+  private static final BinaryMessageDecoder<FDDEIPMessage> DECODER =
+      new BinaryMessageDecoder<FDDEIPMessage>(MODEL$, SCHEMA$);
 
   /**
    * Return the BinaryMessageDecoder instance used by this class.
    */
-  public static BinaryMessageDecoder<hl7messageEvent> getDecoder() {
+  public static BinaryMessageDecoder<FDDEIPMessage> getDecoder() {
     return DECODER;
   }
 
@@ -36,17 +36,17 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
    * Create a new BinaryMessageDecoder instance for this class that uses the specified {@link SchemaStore}.
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
    */
-  public static BinaryMessageDecoder<hl7messageEvent> createDecoder(SchemaStore resolver) {
-    return new BinaryMessageDecoder<hl7messageEvent>(MODEL$, SCHEMA$, resolver);
+  public static BinaryMessageDecoder<FDDEIPMessage> createDecoder(SchemaStore resolver) {
+    return new BinaryMessageDecoder<FDDEIPMessage>(MODEL$, SCHEMA$, resolver);
   }
 
-  /** Serializes this hl7messageEvent to a ByteBuffer. */
+  /** Serializes this FDDEIPMessage to a ByteBuffer. */
   public java.nio.ByteBuffer toByteBuffer() throws java.io.IOException {
     return ENCODER.encode(this);
   }
 
-  /** Deserializes a hl7messageEvent from a ByteBuffer. */
-  public static hl7messageEvent fromByteBuffer(
+  /** Deserializes a FDDEIPMessage from a ByteBuffer. */
+  public static FDDEIPMessage fromByteBuffer(
       java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
   }
@@ -76,7 +76,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>.
    */
-  public hl7messageEvent() {}
+  public FDDEIPMessage() {}
 
   /**
    * All-args constructor.
@@ -100,7 +100,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
    * @param content The new value for content
    * @param md5 The new value for md5
    */
-  public hl7messageEvent(java.lang.CharSequence messageGUID, java.lang.CharSequence transportGUID, java.lang.CharSequence bhsGUID, java.lang.Long batchPosition, java.lang.CharSequence fhsGUID, java.lang.CharSequence status, java.lang.CharSequence sender, java.lang.CharSequence condition, java.lang.CharSequence messageCode, java.lang.CharSequence triggerEvent, java.lang.CharSequence messageStructure, java.lang.CharSequence profile, java.lang.CharSequence versionId, java.lang.CharSequence createdBy, java.lang.Long createdTime, java.lang.CharSequence updatedBy, java.lang.Long updatedTime, java.lang.CharSequence content, java.lang.CharSequence md5) {
+  public FDDEIPMessage(java.lang.CharSequence messageGUID, java.lang.CharSequence transportGUID, java.lang.CharSequence bhsGUID, java.lang.Long batchPosition, java.lang.CharSequence fhsGUID, java.lang.CharSequence status, java.lang.CharSequence sender, java.lang.CharSequence condition, java.lang.CharSequence messageCode, java.lang.CharSequence triggerEvent, java.lang.CharSequence messageStructure, java.lang.CharSequence profile, java.lang.CharSequence versionId, java.lang.CharSequence createdBy, java.lang.Long createdTime, java.lang.CharSequence updatedBy, java.lang.Long updatedTime, java.lang.CharSequence content, java.lang.CharSequence md5) {
     this.messageGUID = messageGUID;
     this.transportGUID = transportGUID;
     this.bhsGUID = bhsGUID;
@@ -481,36 +481,36 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
   }
 
   /**
-   * Creates a new hl7messageEvent RecordBuilder.
-   * @return A new hl7messageEvent RecordBuilder
+   * Creates a new FDDEIPMessage RecordBuilder.
+   * @return A new FDDEIPMessage RecordBuilder
    */
-  public static gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder newBuilder() {
-    return new gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder();
+  public static gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder newBuilder() {
+    return new gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder();
   }
 
   /**
-   * Creates a new hl7messageEvent RecordBuilder by copying an existing Builder.
+   * Creates a new FDDEIPMessage RecordBuilder by copying an existing Builder.
    * @param other The existing builder to copy.
-   * @return A new hl7messageEvent RecordBuilder
+   * @return A new FDDEIPMessage RecordBuilder
    */
-  public static gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder newBuilder(gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder other) {
-    return new gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder(other);
+  public static gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder newBuilder(gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder other) {
+    return new gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder(other);
   }
 
   /**
-   * Creates a new hl7messageEvent RecordBuilder by copying an existing hl7messageEvent instance.
+   * Creates a new FDDEIPMessage RecordBuilder by copying an existing FDDEIPMessage instance.
    * @param other The existing instance to copy.
-   * @return A new hl7messageEvent RecordBuilder
+   * @return A new FDDEIPMessage RecordBuilder
    */
-  public static gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder newBuilder(gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent other) {
-    return new gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder(other);
+  public static gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder newBuilder(gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage other) {
+    return new gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder(other);
   }
 
   /**
-   * RecordBuilder for hl7messageEvent instances.
+   * RecordBuilder for FDDEIPMessage instances.
    */
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<hl7messageEvent>
-    implements org.apache.avro.data.RecordBuilder<hl7messageEvent> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<FDDEIPMessage>
+    implements org.apache.avro.data.RecordBuilder<FDDEIPMessage> {
 
     private java.lang.CharSequence messageGUID;
     private java.lang.CharSequence transportGUID;
@@ -541,7 +541,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder other) {
+    private Builder(gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.messageGUID)) {
         this.messageGUID = data().deepCopy(fields()[0].schema(), other.messageGUID);
@@ -622,10 +622,10 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
     }
 
     /**
-     * Creates a Builder by copying an existing hl7messageEvent instance
+     * Creates a Builder by copying an existing FDDEIPMessage instance
      * @param other The existing instance to copy.
      */
-    private Builder(gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent other) {
+    private Builder(gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage other) {
             super(SCHEMA$);
       if (isValidValue(fields()[0], other.messageGUID)) {
         this.messageGUID = data().deepCopy(fields()[0].schema(), other.messageGUID);
@@ -718,7 +718,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'messageGUID'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setMessageGUID(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setMessageGUID(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.messageGUID = value;
       fieldSetFlags()[0] = true;
@@ -738,7 +738,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'messageGUID' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearMessageGUID() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearMessageGUID() {
       messageGUID = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -757,7 +757,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'transportGUID'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setTransportGUID(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setTransportGUID(java.lang.CharSequence value) {
       validate(fields()[1], value);
       this.transportGUID = value;
       fieldSetFlags()[1] = true;
@@ -777,7 +777,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'transportGUID' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearTransportGUID() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearTransportGUID() {
       transportGUID = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -796,7 +796,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'bhsGUID'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setBhsGUID(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setBhsGUID(java.lang.CharSequence value) {
       validate(fields()[2], value);
       this.bhsGUID = value;
       fieldSetFlags()[2] = true;
@@ -816,7 +816,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'bhsGUID' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearBhsGUID() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearBhsGUID() {
       bhsGUID = null;
       fieldSetFlags()[2] = false;
       return this;
@@ -835,7 +835,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'batchPosition'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setBatchPosition(long value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setBatchPosition(long value) {
       validate(fields()[3], value);
       this.batchPosition = value;
       fieldSetFlags()[3] = true;
@@ -855,7 +855,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'batchPosition' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearBatchPosition() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearBatchPosition() {
       fieldSetFlags()[3] = false;
       return this;
     }
@@ -873,7 +873,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'fhsGUID'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setFhsGUID(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setFhsGUID(java.lang.CharSequence value) {
       validate(fields()[4], value);
       this.fhsGUID = value;
       fieldSetFlags()[4] = true;
@@ -893,7 +893,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'fhsGUID' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearFhsGUID() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearFhsGUID() {
       fhsGUID = null;
       fieldSetFlags()[4] = false;
       return this;
@@ -912,7 +912,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'status'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setStatus(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setStatus(java.lang.CharSequence value) {
       validate(fields()[5], value);
       this.status = value;
       fieldSetFlags()[5] = true;
@@ -932,7 +932,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'status' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearStatus() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearStatus() {
       status = null;
       fieldSetFlags()[5] = false;
       return this;
@@ -951,7 +951,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'sender'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setSender(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setSender(java.lang.CharSequence value) {
       validate(fields()[6], value);
       this.sender = value;
       fieldSetFlags()[6] = true;
@@ -971,7 +971,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'sender' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearSender() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearSender() {
       sender = null;
       fieldSetFlags()[6] = false;
       return this;
@@ -990,7 +990,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'condition'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setCondition(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setCondition(java.lang.CharSequence value) {
       validate(fields()[7], value);
       this.condition = value;
       fieldSetFlags()[7] = true;
@@ -1010,7 +1010,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'condition' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearCondition() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearCondition() {
       condition = null;
       fieldSetFlags()[7] = false;
       return this;
@@ -1029,7 +1029,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'messageCode'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setMessageCode(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setMessageCode(java.lang.CharSequence value) {
       validate(fields()[8], value);
       this.messageCode = value;
       fieldSetFlags()[8] = true;
@@ -1049,7 +1049,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'messageCode' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearMessageCode() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearMessageCode() {
       messageCode = null;
       fieldSetFlags()[8] = false;
       return this;
@@ -1068,7 +1068,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'triggerEvent'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setTriggerEvent(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setTriggerEvent(java.lang.CharSequence value) {
       validate(fields()[9], value);
       this.triggerEvent = value;
       fieldSetFlags()[9] = true;
@@ -1088,7 +1088,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'triggerEvent' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearTriggerEvent() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearTriggerEvent() {
       triggerEvent = null;
       fieldSetFlags()[9] = false;
       return this;
@@ -1107,7 +1107,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'messageStructure'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setMessageStructure(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setMessageStructure(java.lang.CharSequence value) {
       validate(fields()[10], value);
       this.messageStructure = value;
       fieldSetFlags()[10] = true;
@@ -1127,7 +1127,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'messageStructure' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearMessageStructure() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearMessageStructure() {
       messageStructure = null;
       fieldSetFlags()[10] = false;
       return this;
@@ -1146,7 +1146,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'profile'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setProfile(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setProfile(java.lang.CharSequence value) {
       validate(fields()[11], value);
       this.profile = value;
       fieldSetFlags()[11] = true;
@@ -1166,7 +1166,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'profile' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearProfile() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearProfile() {
       profile = null;
       fieldSetFlags()[11] = false;
       return this;
@@ -1185,7 +1185,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'versionId'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setVersionId(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setVersionId(java.lang.CharSequence value) {
       validate(fields()[12], value);
       this.versionId = value;
       fieldSetFlags()[12] = true;
@@ -1205,7 +1205,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'versionId' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearVersionId() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearVersionId() {
       versionId = null;
       fieldSetFlags()[12] = false;
       return this;
@@ -1224,7 +1224,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'createdBy'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setCreatedBy(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setCreatedBy(java.lang.CharSequence value) {
       validate(fields()[13], value);
       this.createdBy = value;
       fieldSetFlags()[13] = true;
@@ -1244,7 +1244,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'createdBy' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearCreatedBy() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearCreatedBy() {
       createdBy = null;
       fieldSetFlags()[13] = false;
       return this;
@@ -1263,7 +1263,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'createdTime'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setCreatedTime(long value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setCreatedTime(long value) {
       validate(fields()[14], value);
       this.createdTime = value;
       fieldSetFlags()[14] = true;
@@ -1283,7 +1283,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'createdTime' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearCreatedTime() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearCreatedTime() {
       fieldSetFlags()[14] = false;
       return this;
     }
@@ -1301,7 +1301,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'updatedBy'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setUpdatedBy(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setUpdatedBy(java.lang.CharSequence value) {
       validate(fields()[15], value);
       this.updatedBy = value;
       fieldSetFlags()[15] = true;
@@ -1321,7 +1321,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'updatedBy' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearUpdatedBy() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearUpdatedBy() {
       updatedBy = null;
       fieldSetFlags()[15] = false;
       return this;
@@ -1340,7 +1340,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'updatedTime'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setUpdatedTime(long value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setUpdatedTime(long value) {
       validate(fields()[16], value);
       this.updatedTime = value;
       fieldSetFlags()[16] = true;
@@ -1360,7 +1360,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'updatedTime' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearUpdatedTime() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearUpdatedTime() {
       fieldSetFlags()[16] = false;
       return this;
     }
@@ -1378,7 +1378,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'content'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setContent(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setContent(java.lang.CharSequence value) {
       validate(fields()[17], value);
       this.content = value;
       fieldSetFlags()[17] = true;
@@ -1398,7 +1398,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'content' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearContent() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearContent() {
       content = null;
       fieldSetFlags()[17] = false;
       return this;
@@ -1417,7 +1417,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'md5'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder setMd5(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setMd5(java.lang.CharSequence value) {
       validate(fields()[18], value);
       this.md5 = value;
       fieldSetFlags()[18] = true;
@@ -1437,7 +1437,7 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
       * Clears the value of the 'md5' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageEvent.Builder clearMd5() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearMd5() {
       md5 = null;
       fieldSetFlags()[18] = false;
       return this;
@@ -1445,9 +1445,9 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
 
     @Override
     @SuppressWarnings("unchecked")
-    public hl7messageEvent build() {
+    public FDDEIPMessage build() {
       try {
-        hl7messageEvent record = new hl7messageEvent();
+        FDDEIPMessage record = new FDDEIPMessage();
         record.messageGUID = fieldSetFlags()[0] ? this.messageGUID : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.transportGUID = fieldSetFlags()[1] ? this.transportGUID : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.bhsGUID = fieldSetFlags()[2] ? this.bhsGUID : (java.lang.CharSequence) defaultValue(fields()[2]);
@@ -1475,8 +1475,8 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumWriter<hl7messageEvent>
-    WRITER$ = (org.apache.avro.io.DatumWriter<hl7messageEvent>)MODEL$.createDatumWriter(SCHEMA$);
+  private static final org.apache.avro.io.DatumWriter<FDDEIPMessage>
+    WRITER$ = (org.apache.avro.io.DatumWriter<FDDEIPMessage>)MODEL$.createDatumWriter(SCHEMA$);
 
   @Override public void writeExternal(java.io.ObjectOutput out)
     throws java.io.IOException {
@@ -1484,8 +1484,8 @@ public class hl7messageEvent extends org.apache.avro.specific.SpecificRecordBase
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumReader<hl7messageEvent>
-    READER$ = (org.apache.avro.io.DatumReader<hl7messageEvent>)MODEL$.createDatumReader(SCHEMA$);
+  private static final org.apache.avro.io.DatumReader<FDDEIPMessage>
+    READER$ = (org.apache.avro.io.DatumReader<FDDEIPMessage>)MODEL$.createDatumReader(SCHEMA$);
 
   @Override public void readExternal(java.io.ObjectInput in)
     throws java.io.IOException {

@@ -134,13 +134,13 @@ public class S3Producer extends TimerTask{
 	
 	private Schema loadSchema() throws IOException{
 		 
-		String userSchema = ResourceHelper.getSchemabyName("MessageEvent.avsc");
+		String userSchema = ResourceHelper.getSchemabyName("fddEipMessage.avsc");
 		Schema.Parser parser = new Schema.Parser();
 		return parser.parse(userSchema);
 	}
 	private Schema loadSchemaKey() throws IOException{
 		 
-		String userSchema = ResourceHelper.getSchemabyName("MessageKey.avsc");
+		String userSchema = ResourceHelper.getSchemabyName("fddEipMessageKey.avsc");
 		Schema.Parser parser = new Schema.Parser();
 		return parser.parse(userSchema);
 	}
@@ -216,7 +216,14 @@ public class S3Producer extends TimerTask{
 			      final  String handle = m.getReceiptHandle();
 		          final long time = System.currentTimeMillis();
 		          GenericRecord genericKey = getGenericRecordKey("{\"messageGUID\":\""+key+"\"}");
+		          
+//		          BinaryMessageDecoder<FDDEIPMessage> decoder = FDDEIPMessage.getDecoder();
+//		          FDDEIPMessage message = decoder.decode(s3Object.getObjectContent());
+//		          BinaryMessageDecoder<FDDEIPMessageKey> decoderKey = FDDEIPMessageKey.getDecoder();
+//		          FDDEIPMessageKey messageKey = decoderKey.decode(new ByteArrayInputStream(s3Object.getKey().getBytes(StandardCharsets.UTF_8)));
+		          
 		          GenericRecord genericRecord = getGenericRecord(s3Data);
+		          
 		    	  final ProducerRecord<GenericRecord, GenericRecord> record = new ProducerRecord<GenericRecord, GenericRecord>(
 		    			  outgoingTopicName, genericKey, genericRecord);
 		    	  producer.send(record , new org.apache.kafka.clients.producer.Callback() {

@@ -1,12 +1,12 @@
 {
   "type": "record",
-  "name": "hl7messageKey",
-  "namespace": "gov.cdc.ncezid.daas.event.hl7message.schema",
+  "name": "FDDEIPMessageKey",
+  "namespace": "gov.cdc.ncezid.eip.ds.schema",
   "fields": [
     {
       "name": "messageGUID",
       "type": "string",
       "default": null
     }
-   ]
+  ]
 }

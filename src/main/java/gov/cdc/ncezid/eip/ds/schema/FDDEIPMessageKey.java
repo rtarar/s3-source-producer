@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package gov.cdc.ncezid.daas.event.hl7message.schema;
+package gov.cdc.ncezid.eip.ds.schema;
 
 import org.apache.avro.specific.SpecificData;
 import org.apache.avro.message.BinaryMessageEncoder;
@@ -12,23 +12,23 @@ import org.apache.avro.message.SchemaStore;
 
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
-public class hl7messageKey extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 2895149794183650650L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"hl7messageKey\",\"namespace\":\"gov.cdc.ncezid.daas.event.hl7message.schema\",\"fields\":[{\"name\":\"messageGUID\",\"type\":\"string\",\"default\":null}]}");
+public class FDDEIPMessageKey extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  private static final long serialVersionUID = -1896127463026546136L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"FDDEIPMessageKey\",\"namespace\":\"gov.cdc.ncezid.eip.ds.schema\",\"fields\":[{\"name\":\"messageGUID\",\"type\":\"string\",\"default\":null}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
 
-  private static final BinaryMessageEncoder<hl7messageKey> ENCODER =
-      new BinaryMessageEncoder<hl7messageKey>(MODEL$, SCHEMA$);
+  private static final BinaryMessageEncoder<FDDEIPMessageKey> ENCODER =
+      new BinaryMessageEncoder<FDDEIPMessageKey>(MODEL$, SCHEMA$);
 
-  private static final BinaryMessageDecoder<hl7messageKey> DECODER =
-      new BinaryMessageDecoder<hl7messageKey>(MODEL$, SCHEMA$);
+  private static final BinaryMessageDecoder<FDDEIPMessageKey> DECODER =
+      new BinaryMessageDecoder<FDDEIPMessageKey>(MODEL$, SCHEMA$);
 
   /**
    * Return the BinaryMessageDecoder instance used by this class.
    */
-  public static BinaryMessageDecoder<hl7messageKey> getDecoder() {
+  public static BinaryMessageDecoder<FDDEIPMessageKey> getDecoder() {
     return DECODER;
   }
 
@@ -36,17 +36,17 @@ public class hl7messageKey extends org.apache.avro.specific.SpecificRecordBase i
    * Create a new BinaryMessageDecoder instance for this class that uses the specified {@link SchemaStore}.
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
    */
-  public static BinaryMessageDecoder<hl7messageKey> createDecoder(SchemaStore resolver) {
-    return new BinaryMessageDecoder<hl7messageKey>(MODEL$, SCHEMA$, resolver);
+  public static BinaryMessageDecoder<FDDEIPMessageKey> createDecoder(SchemaStore resolver) {
+    return new BinaryMessageDecoder<FDDEIPMessageKey>(MODEL$, SCHEMA$, resolver);
   }
 
-  /** Serializes this hl7messageKey to a ByteBuffer. */
+  /** Serializes this FDDEIPMessageKey to a ByteBuffer. */
   public java.nio.ByteBuffer toByteBuffer() throws java.io.IOException {
     return ENCODER.encode(this);
   }
 
-  /** Deserializes a hl7messageKey from a ByteBuffer. */
-  public static hl7messageKey fromByteBuffer(
+  /** Deserializes a FDDEIPMessageKey from a ByteBuffer. */
+  public static FDDEIPMessageKey fromByteBuffer(
       java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
   }
@@ -58,13 +58,13 @@ public class hl7messageKey extends org.apache.avro.specific.SpecificRecordBase i
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>.
    */
-  public hl7messageKey() {}
+  public FDDEIPMessageKey() {}
 
   /**
    * All-args constructor.
    * @param messageGUID The new value for messageGUID
    */
-  public hl7messageKey(java.lang.CharSequence messageGUID) {
+  public FDDEIPMessageKey(java.lang.CharSequence messageGUID) {
     this.messageGUID = messageGUID;
   }
 
@@ -103,36 +103,36 @@ public class hl7messageKey extends org.apache.avro.specific.SpecificRecordBase i
   }
 
   /**
-   * Creates a new hl7messageKey RecordBuilder.
-   * @return A new hl7messageKey RecordBuilder
+   * Creates a new FDDEIPMessageKey RecordBuilder.
+   * @return A new FDDEIPMessageKey RecordBuilder
    */
-  public static gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageKey.Builder newBuilder() {
-    return new gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageKey.Builder();
+  public static gov.cdc.ncezid.eip.ds.schema.FDDEIPMessageKey.Builder newBuilder() {
+    return new gov.cdc.ncezid.eip.ds.schema.FDDEIPMessageKey.Builder();
   }
 
   /**
-   * Creates a new hl7messageKey RecordBuilder by copying an existing Builder.
+   * Creates a new FDDEIPMessageKey RecordBuilder by copying an existing Builder.
    * @param other The existing builder to copy.
-   * @return A new hl7messageKey RecordBuilder
+   * @return A new FDDEIPMessageKey RecordBuilder
    */
-  public static gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageKey.Builder newBuilder(gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageKey.Builder other) {
-    return new gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageKey.Builder(other);
+  public static gov.cdc.ncezid.eip.ds.schema.FDDEIPMessageKey.Builder newBuilder(gov.cdc.ncezid.eip.ds.schema.FDDEIPMessageKey.Builder other) {
+    return new gov.cdc.ncezid.eip.ds.schema.FDDEIPMessageKey.Builder(other);
   }
 
   /**
-   * Creates a new hl7messageKey RecordBuilder by copying an existing hl7messageKey instance.
+   * Creates a new FDDEIPMessageKey RecordBuilder by copying an existing FDDEIPMessageKey instance.
    * @param other The existing instance to copy.
-   * @return A new hl7messageKey RecordBuilder
+   * @return A new FDDEIPMessageKey RecordBuilder
    */
-  public static gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageKey.Builder newBuilder(gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageKey other) {
-    return new gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageKey.Builder(other);
+  public static gov.cdc.ncezid.eip.ds.schema.FDDEIPMessageKey.Builder newBuilder(gov.cdc.ncezid.eip.ds.schema.FDDEIPMessageKey other) {
+    return new gov.cdc.ncezid.eip.ds.schema.FDDEIPMessageKey.Builder(other);
   }
 
   /**
-   * RecordBuilder for hl7messageKey instances.
+   * RecordBuilder for FDDEIPMessageKey instances.
    */
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<hl7messageKey>
-    implements org.apache.avro.data.RecordBuilder<hl7messageKey> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<FDDEIPMessageKey>
+    implements org.apache.avro.data.RecordBuilder<FDDEIPMessageKey> {
 
     private java.lang.CharSequence messageGUID;
 
@@ -145,7 +145,7 @@ public class hl7messageKey extends org.apache.avro.specific.SpecificRecordBase i
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageKey.Builder other) {
+    private Builder(gov.cdc.ncezid.eip.ds.schema.FDDEIPMessageKey.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.messageGUID)) {
         this.messageGUID = data().deepCopy(fields()[0].schema(), other.messageGUID);
@@ -154,10 +154,10 @@ public class hl7messageKey extends org.apache.avro.specific.SpecificRecordBase i
     }
 
     /**
-     * Creates a Builder by copying an existing hl7messageKey instance
+     * Creates a Builder by copying an existing FDDEIPMessageKey instance
      * @param other The existing instance to copy.
      */
-    private Builder(gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageKey other) {
+    private Builder(gov.cdc.ncezid.eip.ds.schema.FDDEIPMessageKey other) {
             super(SCHEMA$);
       if (isValidValue(fields()[0], other.messageGUID)) {
         this.messageGUID = data().deepCopy(fields()[0].schema(), other.messageGUID);
@@ -178,7 +178,7 @@ public class hl7messageKey extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'messageGUID'.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageKey.Builder setMessageGUID(java.lang.CharSequence value) {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessageKey.Builder setMessageGUID(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.messageGUID = value;
       fieldSetFlags()[0] = true;
@@ -198,7 +198,7 @@ public class hl7messageKey extends org.apache.avro.specific.SpecificRecordBase i
       * Clears the value of the 'messageGUID' field.
       * @return This builder.
       */
-    public gov.cdc.ncezid.daas.event.hl7message.schema.hl7messageKey.Builder clearMessageGUID() {
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessageKey.Builder clearMessageGUID() {
       messageGUID = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -206,9 +206,9 @@ public class hl7messageKey extends org.apache.avro.specific.SpecificRecordBase i
 
     @Override
     @SuppressWarnings("unchecked")
-    public hl7messageKey build() {
+    public FDDEIPMessageKey build() {
       try {
-        hl7messageKey record = new hl7messageKey();
+        FDDEIPMessageKey record = new FDDEIPMessageKey();
         record.messageGUID = fieldSetFlags()[0] ? this.messageGUID : (java.lang.CharSequence) defaultValue(fields()[0]);
         return record;
       } catch (java.lang.Exception e) {
@@ -218,8 +218,8 @@ public class hl7messageKey extends org.apache.avro.specific.SpecificRecordBase i
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumWriter<hl7messageKey>
-    WRITER$ = (org.apache.avro.io.DatumWriter<hl7messageKey>)MODEL$.createDatumWriter(SCHEMA$);
+  private static final org.apache.avro.io.DatumWriter<FDDEIPMessageKey>
+    WRITER$ = (org.apache.avro.io.DatumWriter<FDDEIPMessageKey>)MODEL$.createDatumWriter(SCHEMA$);
 
   @Override public void writeExternal(java.io.ObjectOutput out)
     throws java.io.IOException {
@@ -227,8 +227,8 @@ public class hl7messageKey extends org.apache.avro.specific.SpecificRecordBase i
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumReader<hl7messageKey>
-    READER$ = (org.apache.avro.io.DatumReader<hl7messageKey>)MODEL$.createDatumReader(SCHEMA$);
+  private static final org.apache.avro.io.DatumReader<FDDEIPMessageKey>
+    READER$ = (org.apache.avro.io.DatumReader<FDDEIPMessageKey>)MODEL$.createDatumReader(SCHEMA$);
 
   @Override public void readExternal(java.io.ObjectInput in)
     throws java.io.IOException {

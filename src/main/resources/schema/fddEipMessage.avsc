@@ -1,21 +1,24 @@
 {
   "type": "record",
-  "name": "hl7messageEvent",
-  "namespace": "gov.cdc.ncezid.daas.event.hl7message.schema",
+  "name": "FDDEIPMessage",
+  "namespace": "gov.cdc.ncezid.eip.ds.schema",
   "fields": [
     {
       "name": "messageGUID",
-      "type":"string",
+      "type": "string",
       "default": null
     },
     {
       "name": "transportGUID",
-      "type":"string",
+      "type": "string",
       "default": null
     },
     {
       "name": "bhsGUID",
-      "type": ["null","string"],
+      "type": [
+        "null",
+        "string"
+      ],
       "default": null
     },
     {
@@ -25,7 +28,10 @@
     },
     {
       "name": "fhsGUID",
-      "type": ["null","string"],
+      "type": [
+        "null",
+        "string"
+      ],
       "default": null
     },
     {
@@ -65,7 +71,7 @@
     },
     {
       "name": "versionId",
-      "type":"string",
+      "type": "string",
       "default": null
     },
     {
@@ -80,7 +86,7 @@
     },
     {
       "name": "updatedBy",
-      "type":"string",
+      "type": "string",
       "default": null
     },
     {
@@ -95,7 +101,10 @@
     },
     {
       "name": "md5",
-      "type": ["null","string"],
+      "type": [
+        "null",
+        "string"
+      ],
       "default": null
     }
   ]
