@@ -1,5 +1,5 @@
 # build stage
-FROM maven:3-jdk-11 as builder
+FROM maven:3-jdk-8 as builder
 RUN mkdir -p /usr/src/app
 COPY . /usr/src/app
 WORKDIR /usr/src/app
@@ -7,7 +7,8 @@ RUN mvn clean package -DskipTests=true
 
 
 #Create Image Stage:
-FROM openjdk:11-jre-slim
+FROM openjdk:8-jre-alpine
+RUN apk --no-cache add curl
 
 VOLUME /tmp
 
