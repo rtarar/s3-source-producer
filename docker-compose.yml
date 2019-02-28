@@ -1,53 +1,25 @@
 ---
-version: '2'
+version: '3'
 services:
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    network_mode: host
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    extra_hosts:
-      - "moby:127.0.0.1"
-
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    network_mode: host
-    depends_on:
-      - zookeeper
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: localhost:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    extra_hosts:
-      - "moby:127.0.0.1"
-
-  kafka-rest-proxy:
-    image: confluentinc/cp-kafka-rest:latest
-    network_mode : host
-    ports:
-      - "8082:8082"
-    environment:
-      # KAFKA_REST_ZOOKEEPER_CONNECT: zoo1:2181
-      KAFKA_REST_LISTENERS: http://0.0.0.0:8082/
-      KAFKA_REST_SCHEMA_REGISTRY_URL: http://localhost:8081/
-      KAFKA_REST_HOST_NAME: kafka-rest-proxy
-      KAFKA_REST_BOOTSTRAP_SERVERS: PLAINTEXT://localhost:9092
-    depends_on:
-      - zookeeper
-      - kafka
-      - kafka-schema-registry
-      
-  kafka-schema-registry:
-    image: confluentinc/cp-schema-registry:latest
-    network_mode : host
-    ports:
-      - "8081:8081"
-    environment:
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka1:9092
-      SCHEMA_REGISTRY_HOST_NAME: localhost
-      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
-    depends_on:
-      - zookeeper
-      - kafka
+    s3dataproducer:
+        image: 'imagehub.cdc.gov:5989/edh/s3dataproducer'
+        container_name: s3dataproducer
+        environment:
+            - 'PIPELINE_NAME=EIPPLUS'
+            - 'GROUP_NAME=S3PRODUCER01'
+            - 'OUTGOING_TOPIC_NAME=FDD.EIP.Source'
+            - 'ERROR_TOPIC_NAME=eip-error'
+            - 'KAFKA_BROKERS=sdl-dev01.biotech.cdc.gov:9092'
+            - 'POLL_INTERVAL_MILLIS=2000'
+            - 'S3_BUCKET_NAME=eip-plus-messages-dev'
+            - 'S3_ACCESS_KEY=AKIAIHX6U5QGJDZGPVIA'
+            - 'S3_SECRET=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'
+            - 'SQS_URL=https://sqs.us-east-1.amazonaws.com/626636711996/eip-legacy-dev'
+            - 'SCHEMA_REGISTRY_URL=http://sdl-dev01.biotech.cdc.gov:8081'     
+        ports:
+            - '10006:10006'
+        networks:
+            - sdh_nw 
+networks:
+    sdh_nw:
+        driver: bridge
