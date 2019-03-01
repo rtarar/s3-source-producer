@@ -13,8 +13,8 @@ import org.apache.avro.message.SchemaStore;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 8965780866319885454L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"FDDEIPMessage\",\"namespace\":\"gov.cdc.ncezid.eip.ds.schema\",\"fields\":[{\"name\":\"messageGUID\",\"type\":\"string\",\"default\":null},{\"name\":\"transportGUID\",\"type\":\"string\",\"default\":null},{\"name\":\"bhsGUID\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"batchPosition\",\"type\":\"long\",\"default\":null},{\"name\":\"fhsGUID\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"status\",\"type\":\"string\",\"default\":null},{\"name\":\"sender\",\"type\":\"string\",\"default\":null},{\"name\":\"condition\",\"type\":\"string\",\"default\":null},{\"name\":\"messageCode\",\"type\":\"string\",\"default\":null},{\"name\":\"triggerEvent\",\"type\":\"string\",\"default\":null},{\"name\":\"messageStructure\",\"type\":\"string\",\"default\":null},{\"name\":\"profile\",\"type\":\"string\",\"default\":null},{\"name\":\"versionId\",\"type\":\"string\",\"default\":null},{\"name\":\"createdBy\",\"type\":\"string\",\"default\":null},{\"name\":\"createdTime\",\"type\":\"long\",\"default\":null},{\"name\":\"updatedBy\",\"type\":\"string\",\"default\":null},{\"name\":\"updatedTime\",\"type\":\"long\",\"default\":null},{\"name\":\"content\",\"type\":\"string\",\"default\":null},{\"name\":\"md5\",\"type\":[\"null\",\"string\"],\"default\":null}]}");
+  private static final long serialVersionUID = 1772383499950206065L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"FDDEIPMessage\",\"namespace\":\"gov.cdc.ncezid.eip.ds.schema\",\"fields\":[{\"name\":\"metadata\",\"type\":[\"null\",{\"type\":\"record\",\"name\":\"MetadataRecord\",\"fields\":[{\"name\":\"recordGUID\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"pipeline\",\"type\":[\"null\",\"string\"],\"default\":\"EIP.FDD\"},{\"name\":\"duaValid\",\"type\":[\"null\",\"string\"],\"default\":false},{\"name\":\"duaProcessedTime\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"duaValues\",\"type\":[\"null\",{\"type\":\"record\",\"name\":\"DuaValuesRecord\",\"fields\":[{\"name\":\"state\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"county\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"catchmentStatus\",\"type\":[\"null\",\"boolean\"],\"default\":false},{\"name\":\"condition\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"conditionStatus\",\"type\":[\"null\",\"boolean\"],\"default\":false}]}]}]}]},{\"name\":\"messageGUID\",\"type\":\"string\",\"default\":null},{\"name\":\"transportGUID\",\"type\":\"string\",\"default\":null},{\"name\":\"bhsGUID\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"batchPosition\",\"type\":\"long\",\"default\":null},{\"name\":\"fhsGUID\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"status\",\"type\":\"string\",\"default\":null},{\"name\":\"sender\",\"type\":\"string\",\"default\":null},{\"name\":\"condition\",\"type\":\"string\",\"default\":null},{\"name\":\"messageCode\",\"type\":\"string\",\"default\":null},{\"name\":\"triggerEvent\",\"type\":\"string\",\"default\":null},{\"name\":\"messageStructure\",\"type\":\"string\",\"default\":null},{\"name\":\"profile\",\"type\":\"string\",\"default\":null},{\"name\":\"versionId\",\"type\":\"string\",\"default\":null},{\"name\":\"createdBy\",\"type\":\"string\",\"default\":null},{\"name\":\"createdTime\",\"type\":\"long\",\"default\":null},{\"name\":\"updatedBy\",\"type\":\"string\",\"default\":null},{\"name\":\"updatedTime\",\"type\":\"long\",\"default\":null},{\"name\":\"content\",\"type\":\"string\",\"default\":null},{\"name\":\"md5\",\"type\":[\"null\",\"string\"],\"default\":null}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -51,6 +51,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
     return DECODER.decode(b);
   }
 
+  @Deprecated public gov.cdc.ncezid.eip.ds.schema.MetadataRecord metadata;
   @Deprecated public java.lang.CharSequence messageGUID;
   @Deprecated public java.lang.CharSequence transportGUID;
   @Deprecated public java.lang.CharSequence bhsGUID;
@@ -80,6 +81,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
 
   /**
    * All-args constructor.
+   * @param metadata The new value for metadata
    * @param messageGUID The new value for messageGUID
    * @param transportGUID The new value for transportGUID
    * @param bhsGUID The new value for bhsGUID
@@ -100,7 +102,8 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
    * @param content The new value for content
    * @param md5 The new value for md5
    */
-  public FDDEIPMessage(java.lang.CharSequence messageGUID, java.lang.CharSequence transportGUID, java.lang.CharSequence bhsGUID, java.lang.Long batchPosition, java.lang.CharSequence fhsGUID, java.lang.CharSequence status, java.lang.CharSequence sender, java.lang.CharSequence condition, java.lang.CharSequence messageCode, java.lang.CharSequence triggerEvent, java.lang.CharSequence messageStructure, java.lang.CharSequence profile, java.lang.CharSequence versionId, java.lang.CharSequence createdBy, java.lang.Long createdTime, java.lang.CharSequence updatedBy, java.lang.Long updatedTime, java.lang.CharSequence content, java.lang.CharSequence md5) {
+  public FDDEIPMessage(gov.cdc.ncezid.eip.ds.schema.MetadataRecord metadata, java.lang.CharSequence messageGUID, java.lang.CharSequence transportGUID, java.lang.CharSequence bhsGUID, java.lang.Long batchPosition, java.lang.CharSequence fhsGUID, java.lang.CharSequence status, java.lang.CharSequence sender, java.lang.CharSequence condition, java.lang.CharSequence messageCode, java.lang.CharSequence triggerEvent, java.lang.CharSequence messageStructure, java.lang.CharSequence profile, java.lang.CharSequence versionId, java.lang.CharSequence createdBy, java.lang.Long createdTime, java.lang.CharSequence updatedBy, java.lang.Long updatedTime, java.lang.CharSequence content, java.lang.CharSequence md5) {
+    this.metadata = metadata;
     this.messageGUID = messageGUID;
     this.transportGUID = transportGUID;
     this.bhsGUID = bhsGUID;
@@ -126,25 +129,26 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
   // Used by DatumWriter.  Applications should not call.
   public java.lang.Object get(int field$) {
     switch (field$) {
-    case 0: return messageGUID;
-    case 1: return transportGUID;
-    case 2: return bhsGUID;
-    case 3: return batchPosition;
-    case 4: return fhsGUID;
-    case 5: return status;
-    case 6: return sender;
-    case 7: return condition;
-    case 8: return messageCode;
-    case 9: return triggerEvent;
-    case 10: return messageStructure;
-    case 11: return profile;
-    case 12: return versionId;
-    case 13: return createdBy;
-    case 14: return createdTime;
-    case 15: return updatedBy;
-    case 16: return updatedTime;
-    case 17: return content;
-    case 18: return md5;
+    case 0: return metadata;
+    case 1: return messageGUID;
+    case 2: return transportGUID;
+    case 3: return bhsGUID;
+    case 4: return batchPosition;
+    case 5: return fhsGUID;
+    case 6: return status;
+    case 7: return sender;
+    case 8: return condition;
+    case 9: return messageCode;
+    case 10: return triggerEvent;
+    case 11: return messageStructure;
+    case 12: return profile;
+    case 13: return versionId;
+    case 14: return createdBy;
+    case 15: return createdTime;
+    case 16: return updatedBy;
+    case 17: return updatedTime;
+    case 18: return content;
+    case 19: return md5;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -153,27 +157,44 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: messageGUID = (java.lang.CharSequence)value$; break;
-    case 1: transportGUID = (java.lang.CharSequence)value$; break;
-    case 2: bhsGUID = (java.lang.CharSequence)value$; break;
-    case 3: batchPosition = (java.lang.Long)value$; break;
-    case 4: fhsGUID = (java.lang.CharSequence)value$; break;
-    case 5: status = (java.lang.CharSequence)value$; break;
-    case 6: sender = (java.lang.CharSequence)value$; break;
-    case 7: condition = (java.lang.CharSequence)value$; break;
-    case 8: messageCode = (java.lang.CharSequence)value$; break;
-    case 9: triggerEvent = (java.lang.CharSequence)value$; break;
-    case 10: messageStructure = (java.lang.CharSequence)value$; break;
-    case 11: profile = (java.lang.CharSequence)value$; break;
-    case 12: versionId = (java.lang.CharSequence)value$; break;
-    case 13: createdBy = (java.lang.CharSequence)value$; break;
-    case 14: createdTime = (java.lang.Long)value$; break;
-    case 15: updatedBy = (java.lang.CharSequence)value$; break;
-    case 16: updatedTime = (java.lang.Long)value$; break;
-    case 17: content = (java.lang.CharSequence)value$; break;
-    case 18: md5 = (java.lang.CharSequence)value$; break;
+    case 0: metadata = (gov.cdc.ncezid.eip.ds.schema.MetadataRecord)value$; break;
+    case 1: messageGUID = (java.lang.CharSequence)value$; break;
+    case 2: transportGUID = (java.lang.CharSequence)value$; break;
+    case 3: bhsGUID = (java.lang.CharSequence)value$; break;
+    case 4: batchPosition = (java.lang.Long)value$; break;
+    case 5: fhsGUID = (java.lang.CharSequence)value$; break;
+    case 6: status = (java.lang.CharSequence)value$; break;
+    case 7: sender = (java.lang.CharSequence)value$; break;
+    case 8: condition = (java.lang.CharSequence)value$; break;
+    case 9: messageCode = (java.lang.CharSequence)value$; break;
+    case 10: triggerEvent = (java.lang.CharSequence)value$; break;
+    case 11: messageStructure = (java.lang.CharSequence)value$; break;
+    case 12: profile = (java.lang.CharSequence)value$; break;
+    case 13: versionId = (java.lang.CharSequence)value$; break;
+    case 14: createdBy = (java.lang.CharSequence)value$; break;
+    case 15: createdTime = (java.lang.Long)value$; break;
+    case 16: updatedBy = (java.lang.CharSequence)value$; break;
+    case 17: updatedTime = (java.lang.Long)value$; break;
+    case 18: content = (java.lang.CharSequence)value$; break;
+    case 19: md5 = (java.lang.CharSequence)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
+  }
+
+  /**
+   * Gets the value of the 'metadata' field.
+   * @return The value of the 'metadata' field.
+   */
+  public gov.cdc.ncezid.eip.ds.schema.MetadataRecord getMetadata() {
+    return metadata;
+  }
+
+  /**
+   * Sets the value of the 'metadata' field.
+   * @param value the value to set.
+   */
+  public void setMetadata(gov.cdc.ncezid.eip.ds.schema.MetadataRecord value) {
+    this.metadata = value;
   }
 
   /**
@@ -512,6 +533,8 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<FDDEIPMessage>
     implements org.apache.avro.data.RecordBuilder<FDDEIPMessage> {
 
+    private gov.cdc.ncezid.eip.ds.schema.MetadataRecord metadata;
+    private gov.cdc.ncezid.eip.ds.schema.MetadataRecord.Builder metadataBuilder;
     private java.lang.CharSequence messageGUID;
     private java.lang.CharSequence transportGUID;
     private java.lang.CharSequence bhsGUID;
@@ -543,81 +566,88 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
      */
     private Builder(gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder other) {
       super(other);
-      if (isValidValue(fields()[0], other.messageGUID)) {
-        this.messageGUID = data().deepCopy(fields()[0].schema(), other.messageGUID);
+      if (isValidValue(fields()[0], other.metadata)) {
+        this.metadata = data().deepCopy(fields()[0].schema(), other.metadata);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.transportGUID)) {
-        this.transportGUID = data().deepCopy(fields()[1].schema(), other.transportGUID);
+      if (other.hasMetadataBuilder()) {
+        this.metadataBuilder = gov.cdc.ncezid.eip.ds.schema.MetadataRecord.newBuilder(other.getMetadataBuilder());
+      }
+      if (isValidValue(fields()[1], other.messageGUID)) {
+        this.messageGUID = data().deepCopy(fields()[1].schema(), other.messageGUID);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.bhsGUID)) {
-        this.bhsGUID = data().deepCopy(fields()[2].schema(), other.bhsGUID);
+      if (isValidValue(fields()[2], other.transportGUID)) {
+        this.transportGUID = data().deepCopy(fields()[2].schema(), other.transportGUID);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.batchPosition)) {
-        this.batchPosition = data().deepCopy(fields()[3].schema(), other.batchPosition);
+      if (isValidValue(fields()[3], other.bhsGUID)) {
+        this.bhsGUID = data().deepCopy(fields()[3].schema(), other.bhsGUID);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.fhsGUID)) {
-        this.fhsGUID = data().deepCopy(fields()[4].schema(), other.fhsGUID);
+      if (isValidValue(fields()[4], other.batchPosition)) {
+        this.batchPosition = data().deepCopy(fields()[4].schema(), other.batchPosition);
         fieldSetFlags()[4] = true;
       }
-      if (isValidValue(fields()[5], other.status)) {
-        this.status = data().deepCopy(fields()[5].schema(), other.status);
+      if (isValidValue(fields()[5], other.fhsGUID)) {
+        this.fhsGUID = data().deepCopy(fields()[5].schema(), other.fhsGUID);
         fieldSetFlags()[5] = true;
       }
-      if (isValidValue(fields()[6], other.sender)) {
-        this.sender = data().deepCopy(fields()[6].schema(), other.sender);
+      if (isValidValue(fields()[6], other.status)) {
+        this.status = data().deepCopy(fields()[6].schema(), other.status);
         fieldSetFlags()[6] = true;
       }
-      if (isValidValue(fields()[7], other.condition)) {
-        this.condition = data().deepCopy(fields()[7].schema(), other.condition);
+      if (isValidValue(fields()[7], other.sender)) {
+        this.sender = data().deepCopy(fields()[7].schema(), other.sender);
         fieldSetFlags()[7] = true;
       }
-      if (isValidValue(fields()[8], other.messageCode)) {
-        this.messageCode = data().deepCopy(fields()[8].schema(), other.messageCode);
+      if (isValidValue(fields()[8], other.condition)) {
+        this.condition = data().deepCopy(fields()[8].schema(), other.condition);
         fieldSetFlags()[8] = true;
       }
-      if (isValidValue(fields()[9], other.triggerEvent)) {
-        this.triggerEvent = data().deepCopy(fields()[9].schema(), other.triggerEvent);
+      if (isValidValue(fields()[9], other.messageCode)) {
+        this.messageCode = data().deepCopy(fields()[9].schema(), other.messageCode);
         fieldSetFlags()[9] = true;
       }
-      if (isValidValue(fields()[10], other.messageStructure)) {
-        this.messageStructure = data().deepCopy(fields()[10].schema(), other.messageStructure);
+      if (isValidValue(fields()[10], other.triggerEvent)) {
+        this.triggerEvent = data().deepCopy(fields()[10].schema(), other.triggerEvent);
         fieldSetFlags()[10] = true;
       }
-      if (isValidValue(fields()[11], other.profile)) {
-        this.profile = data().deepCopy(fields()[11].schema(), other.profile);
+      if (isValidValue(fields()[11], other.messageStructure)) {
+        this.messageStructure = data().deepCopy(fields()[11].schema(), other.messageStructure);
         fieldSetFlags()[11] = true;
       }
-      if (isValidValue(fields()[12], other.versionId)) {
-        this.versionId = data().deepCopy(fields()[12].schema(), other.versionId);
+      if (isValidValue(fields()[12], other.profile)) {
+        this.profile = data().deepCopy(fields()[12].schema(), other.profile);
         fieldSetFlags()[12] = true;
       }
-      if (isValidValue(fields()[13], other.createdBy)) {
-        this.createdBy = data().deepCopy(fields()[13].schema(), other.createdBy);
+      if (isValidValue(fields()[13], other.versionId)) {
+        this.versionId = data().deepCopy(fields()[13].schema(), other.versionId);
         fieldSetFlags()[13] = true;
       }
-      if (isValidValue(fields()[14], other.createdTime)) {
-        this.createdTime = data().deepCopy(fields()[14].schema(), other.createdTime);
+      if (isValidValue(fields()[14], other.createdBy)) {
+        this.createdBy = data().deepCopy(fields()[14].schema(), other.createdBy);
         fieldSetFlags()[14] = true;
       }
-      if (isValidValue(fields()[15], other.updatedBy)) {
-        this.updatedBy = data().deepCopy(fields()[15].schema(), other.updatedBy);
+      if (isValidValue(fields()[15], other.createdTime)) {
+        this.createdTime = data().deepCopy(fields()[15].schema(), other.createdTime);
         fieldSetFlags()[15] = true;
       }
-      if (isValidValue(fields()[16], other.updatedTime)) {
-        this.updatedTime = data().deepCopy(fields()[16].schema(), other.updatedTime);
+      if (isValidValue(fields()[16], other.updatedBy)) {
+        this.updatedBy = data().deepCopy(fields()[16].schema(), other.updatedBy);
         fieldSetFlags()[16] = true;
       }
-      if (isValidValue(fields()[17], other.content)) {
-        this.content = data().deepCopy(fields()[17].schema(), other.content);
+      if (isValidValue(fields()[17], other.updatedTime)) {
+        this.updatedTime = data().deepCopy(fields()[17].schema(), other.updatedTime);
         fieldSetFlags()[17] = true;
       }
-      if (isValidValue(fields()[18], other.md5)) {
-        this.md5 = data().deepCopy(fields()[18].schema(), other.md5);
+      if (isValidValue(fields()[18], other.content)) {
+        this.content = data().deepCopy(fields()[18].schema(), other.content);
         fieldSetFlags()[18] = true;
+      }
+      if (isValidValue(fields()[19], other.md5)) {
+        this.md5 = data().deepCopy(fields()[19].schema(), other.md5);
+        fieldSetFlags()[19] = true;
       }
     }
 
@@ -627,82 +657,161 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
      */
     private Builder(gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage other) {
             super(SCHEMA$);
-      if (isValidValue(fields()[0], other.messageGUID)) {
-        this.messageGUID = data().deepCopy(fields()[0].schema(), other.messageGUID);
+      if (isValidValue(fields()[0], other.metadata)) {
+        this.metadata = data().deepCopy(fields()[0].schema(), other.metadata);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.transportGUID)) {
-        this.transportGUID = data().deepCopy(fields()[1].schema(), other.transportGUID);
+      this.metadataBuilder = null;
+      if (isValidValue(fields()[1], other.messageGUID)) {
+        this.messageGUID = data().deepCopy(fields()[1].schema(), other.messageGUID);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.bhsGUID)) {
-        this.bhsGUID = data().deepCopy(fields()[2].schema(), other.bhsGUID);
+      if (isValidValue(fields()[2], other.transportGUID)) {
+        this.transportGUID = data().deepCopy(fields()[2].schema(), other.transportGUID);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.batchPosition)) {
-        this.batchPosition = data().deepCopy(fields()[3].schema(), other.batchPosition);
+      if (isValidValue(fields()[3], other.bhsGUID)) {
+        this.bhsGUID = data().deepCopy(fields()[3].schema(), other.bhsGUID);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.fhsGUID)) {
-        this.fhsGUID = data().deepCopy(fields()[4].schema(), other.fhsGUID);
+      if (isValidValue(fields()[4], other.batchPosition)) {
+        this.batchPosition = data().deepCopy(fields()[4].schema(), other.batchPosition);
         fieldSetFlags()[4] = true;
       }
-      if (isValidValue(fields()[5], other.status)) {
-        this.status = data().deepCopy(fields()[5].schema(), other.status);
+      if (isValidValue(fields()[5], other.fhsGUID)) {
+        this.fhsGUID = data().deepCopy(fields()[5].schema(), other.fhsGUID);
         fieldSetFlags()[5] = true;
       }
-      if (isValidValue(fields()[6], other.sender)) {
-        this.sender = data().deepCopy(fields()[6].schema(), other.sender);
+      if (isValidValue(fields()[6], other.status)) {
+        this.status = data().deepCopy(fields()[6].schema(), other.status);
         fieldSetFlags()[6] = true;
       }
-      if (isValidValue(fields()[7], other.condition)) {
-        this.condition = data().deepCopy(fields()[7].schema(), other.condition);
+      if (isValidValue(fields()[7], other.sender)) {
+        this.sender = data().deepCopy(fields()[7].schema(), other.sender);
         fieldSetFlags()[7] = true;
       }
-      if (isValidValue(fields()[8], other.messageCode)) {
-        this.messageCode = data().deepCopy(fields()[8].schema(), other.messageCode);
+      if (isValidValue(fields()[8], other.condition)) {
+        this.condition = data().deepCopy(fields()[8].schema(), other.condition);
         fieldSetFlags()[8] = true;
       }
-      if (isValidValue(fields()[9], other.triggerEvent)) {
-        this.triggerEvent = data().deepCopy(fields()[9].schema(), other.triggerEvent);
+      if (isValidValue(fields()[9], other.messageCode)) {
+        this.messageCode = data().deepCopy(fields()[9].schema(), other.messageCode);
         fieldSetFlags()[9] = true;
       }
-      if (isValidValue(fields()[10], other.messageStructure)) {
-        this.messageStructure = data().deepCopy(fields()[10].schema(), other.messageStructure);
+      if (isValidValue(fields()[10], other.triggerEvent)) {
+        this.triggerEvent = data().deepCopy(fields()[10].schema(), other.triggerEvent);
         fieldSetFlags()[10] = true;
       }
-      if (isValidValue(fields()[11], other.profile)) {
-        this.profile = data().deepCopy(fields()[11].schema(), other.profile);
+      if (isValidValue(fields()[11], other.messageStructure)) {
+        this.messageStructure = data().deepCopy(fields()[11].schema(), other.messageStructure);
         fieldSetFlags()[11] = true;
       }
-      if (isValidValue(fields()[12], other.versionId)) {
-        this.versionId = data().deepCopy(fields()[12].schema(), other.versionId);
+      if (isValidValue(fields()[12], other.profile)) {
+        this.profile = data().deepCopy(fields()[12].schema(), other.profile);
         fieldSetFlags()[12] = true;
       }
-      if (isValidValue(fields()[13], other.createdBy)) {
-        this.createdBy = data().deepCopy(fields()[13].schema(), other.createdBy);
+      if (isValidValue(fields()[13], other.versionId)) {
+        this.versionId = data().deepCopy(fields()[13].schema(), other.versionId);
         fieldSetFlags()[13] = true;
       }
-      if (isValidValue(fields()[14], other.createdTime)) {
-        this.createdTime = data().deepCopy(fields()[14].schema(), other.createdTime);
+      if (isValidValue(fields()[14], other.createdBy)) {
+        this.createdBy = data().deepCopy(fields()[14].schema(), other.createdBy);
         fieldSetFlags()[14] = true;
       }
-      if (isValidValue(fields()[15], other.updatedBy)) {
-        this.updatedBy = data().deepCopy(fields()[15].schema(), other.updatedBy);
+      if (isValidValue(fields()[15], other.createdTime)) {
+        this.createdTime = data().deepCopy(fields()[15].schema(), other.createdTime);
         fieldSetFlags()[15] = true;
       }
-      if (isValidValue(fields()[16], other.updatedTime)) {
-        this.updatedTime = data().deepCopy(fields()[16].schema(), other.updatedTime);
+      if (isValidValue(fields()[16], other.updatedBy)) {
+        this.updatedBy = data().deepCopy(fields()[16].schema(), other.updatedBy);
         fieldSetFlags()[16] = true;
       }
-      if (isValidValue(fields()[17], other.content)) {
-        this.content = data().deepCopy(fields()[17].schema(), other.content);
+      if (isValidValue(fields()[17], other.updatedTime)) {
+        this.updatedTime = data().deepCopy(fields()[17].schema(), other.updatedTime);
         fieldSetFlags()[17] = true;
       }
-      if (isValidValue(fields()[18], other.md5)) {
-        this.md5 = data().deepCopy(fields()[18].schema(), other.md5);
+      if (isValidValue(fields()[18], other.content)) {
+        this.content = data().deepCopy(fields()[18].schema(), other.content);
         fieldSetFlags()[18] = true;
       }
+      if (isValidValue(fields()[19], other.md5)) {
+        this.md5 = data().deepCopy(fields()[19].schema(), other.md5);
+        fieldSetFlags()[19] = true;
+      }
+    }
+
+    /**
+      * Gets the value of the 'metadata' field.
+      * @return The value.
+      */
+    public gov.cdc.ncezid.eip.ds.schema.MetadataRecord getMetadata() {
+      return metadata;
+    }
+
+    /**
+      * Sets the value of the 'metadata' field.
+      * @param value The value of 'metadata'.
+      * @return This builder.
+      */
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setMetadata(gov.cdc.ncezid.eip.ds.schema.MetadataRecord value) {
+      validate(fields()[0], value);
+      this.metadataBuilder = null;
+      this.metadata = value;
+      fieldSetFlags()[0] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'metadata' field has been set.
+      * @return True if the 'metadata' field has been set, false otherwise.
+      */
+    public boolean hasMetadata() {
+      return fieldSetFlags()[0];
+    }
+
+    /**
+     * Gets the Builder instance for the 'metadata' field and creates one if it doesn't exist yet.
+     * @return This builder.
+     */
+    public gov.cdc.ncezid.eip.ds.schema.MetadataRecord.Builder getMetadataBuilder() {
+      if (metadataBuilder == null) {
+        if (hasMetadata()) {
+          setMetadataBuilder(gov.cdc.ncezid.eip.ds.schema.MetadataRecord.newBuilder(metadata));
+        } else {
+          setMetadataBuilder(gov.cdc.ncezid.eip.ds.schema.MetadataRecord.newBuilder());
+        }
+      }
+      return metadataBuilder;
+    }
+
+    /**
+     * Sets the Builder instance for the 'metadata' field
+     * @param value The builder instance that must be set.
+     * @return This builder.
+     */
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setMetadataBuilder(gov.cdc.ncezid.eip.ds.schema.MetadataRecord.Builder value) {
+      clearMetadata();
+      metadataBuilder = value;
+      return this;
+    }
+
+    /**
+     * Checks whether the 'metadata' field has an active Builder instance
+     * @return True if the 'metadata' field has an active Builder instance
+     */
+    public boolean hasMetadataBuilder() {
+      return metadataBuilder != null;
+    }
+
+    /**
+      * Clears the value of the 'metadata' field.
+      * @return This builder.
+      */
+    public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearMetadata() {
+      metadata = null;
+      metadataBuilder = null;
+      fieldSetFlags()[0] = false;
+      return this;
     }
 
     /**
@@ -719,9 +828,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setMessageGUID(java.lang.CharSequence value) {
-      validate(fields()[0], value);
+      validate(fields()[1], value);
       this.messageGUID = value;
-      fieldSetFlags()[0] = true;
+      fieldSetFlags()[1] = true;
       return this;
     }
 
@@ -730,7 +839,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'messageGUID' field has been set, false otherwise.
       */
     public boolean hasMessageGUID() {
-      return fieldSetFlags()[0];
+      return fieldSetFlags()[1];
     }
 
 
@@ -740,7 +849,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearMessageGUID() {
       messageGUID = null;
-      fieldSetFlags()[0] = false;
+      fieldSetFlags()[1] = false;
       return this;
     }
 
@@ -758,9 +867,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setTransportGUID(java.lang.CharSequence value) {
-      validate(fields()[1], value);
+      validate(fields()[2], value);
       this.transportGUID = value;
-      fieldSetFlags()[1] = true;
+      fieldSetFlags()[2] = true;
       return this;
     }
 
@@ -769,7 +878,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'transportGUID' field has been set, false otherwise.
       */
     public boolean hasTransportGUID() {
-      return fieldSetFlags()[1];
+      return fieldSetFlags()[2];
     }
 
 
@@ -779,7 +888,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearTransportGUID() {
       transportGUID = null;
-      fieldSetFlags()[1] = false;
+      fieldSetFlags()[2] = false;
       return this;
     }
 
@@ -797,9 +906,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setBhsGUID(java.lang.CharSequence value) {
-      validate(fields()[2], value);
+      validate(fields()[3], value);
       this.bhsGUID = value;
-      fieldSetFlags()[2] = true;
+      fieldSetFlags()[3] = true;
       return this;
     }
 
@@ -808,7 +917,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'bhsGUID' field has been set, false otherwise.
       */
     public boolean hasBhsGUID() {
-      return fieldSetFlags()[2];
+      return fieldSetFlags()[3];
     }
 
 
@@ -818,7 +927,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearBhsGUID() {
       bhsGUID = null;
-      fieldSetFlags()[2] = false;
+      fieldSetFlags()[3] = false;
       return this;
     }
 
@@ -836,9 +945,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setBatchPosition(long value) {
-      validate(fields()[3], value);
+      validate(fields()[4], value);
       this.batchPosition = value;
-      fieldSetFlags()[3] = true;
+      fieldSetFlags()[4] = true;
       return this;
     }
 
@@ -847,7 +956,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'batchPosition' field has been set, false otherwise.
       */
     public boolean hasBatchPosition() {
-      return fieldSetFlags()[3];
+      return fieldSetFlags()[4];
     }
 
 
@@ -856,7 +965,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearBatchPosition() {
-      fieldSetFlags()[3] = false;
+      fieldSetFlags()[4] = false;
       return this;
     }
 
@@ -874,9 +983,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setFhsGUID(java.lang.CharSequence value) {
-      validate(fields()[4], value);
+      validate(fields()[5], value);
       this.fhsGUID = value;
-      fieldSetFlags()[4] = true;
+      fieldSetFlags()[5] = true;
       return this;
     }
 
@@ -885,7 +994,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'fhsGUID' field has been set, false otherwise.
       */
     public boolean hasFhsGUID() {
-      return fieldSetFlags()[4];
+      return fieldSetFlags()[5];
     }
 
 
@@ -895,7 +1004,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearFhsGUID() {
       fhsGUID = null;
-      fieldSetFlags()[4] = false;
+      fieldSetFlags()[5] = false;
       return this;
     }
 
@@ -913,9 +1022,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setStatus(java.lang.CharSequence value) {
-      validate(fields()[5], value);
+      validate(fields()[6], value);
       this.status = value;
-      fieldSetFlags()[5] = true;
+      fieldSetFlags()[6] = true;
       return this;
     }
 
@@ -924,7 +1033,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'status' field has been set, false otherwise.
       */
     public boolean hasStatus() {
-      return fieldSetFlags()[5];
+      return fieldSetFlags()[6];
     }
 
 
@@ -934,7 +1043,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearStatus() {
       status = null;
-      fieldSetFlags()[5] = false;
+      fieldSetFlags()[6] = false;
       return this;
     }
 
@@ -952,9 +1061,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setSender(java.lang.CharSequence value) {
-      validate(fields()[6], value);
+      validate(fields()[7], value);
       this.sender = value;
-      fieldSetFlags()[6] = true;
+      fieldSetFlags()[7] = true;
       return this;
     }
 
@@ -963,7 +1072,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'sender' field has been set, false otherwise.
       */
     public boolean hasSender() {
-      return fieldSetFlags()[6];
+      return fieldSetFlags()[7];
     }
 
 
@@ -973,7 +1082,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearSender() {
       sender = null;
-      fieldSetFlags()[6] = false;
+      fieldSetFlags()[7] = false;
       return this;
     }
 
@@ -991,9 +1100,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setCondition(java.lang.CharSequence value) {
-      validate(fields()[7], value);
+      validate(fields()[8], value);
       this.condition = value;
-      fieldSetFlags()[7] = true;
+      fieldSetFlags()[8] = true;
       return this;
     }
 
@@ -1002,7 +1111,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'condition' field has been set, false otherwise.
       */
     public boolean hasCondition() {
-      return fieldSetFlags()[7];
+      return fieldSetFlags()[8];
     }
 
 
@@ -1012,7 +1121,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearCondition() {
       condition = null;
-      fieldSetFlags()[7] = false;
+      fieldSetFlags()[8] = false;
       return this;
     }
 
@@ -1030,9 +1139,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setMessageCode(java.lang.CharSequence value) {
-      validate(fields()[8], value);
+      validate(fields()[9], value);
       this.messageCode = value;
-      fieldSetFlags()[8] = true;
+      fieldSetFlags()[9] = true;
       return this;
     }
 
@@ -1041,7 +1150,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'messageCode' field has been set, false otherwise.
       */
     public boolean hasMessageCode() {
-      return fieldSetFlags()[8];
+      return fieldSetFlags()[9];
     }
 
 
@@ -1051,7 +1160,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearMessageCode() {
       messageCode = null;
-      fieldSetFlags()[8] = false;
+      fieldSetFlags()[9] = false;
       return this;
     }
 
@@ -1069,9 +1178,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setTriggerEvent(java.lang.CharSequence value) {
-      validate(fields()[9], value);
+      validate(fields()[10], value);
       this.triggerEvent = value;
-      fieldSetFlags()[9] = true;
+      fieldSetFlags()[10] = true;
       return this;
     }
 
@@ -1080,7 +1189,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'triggerEvent' field has been set, false otherwise.
       */
     public boolean hasTriggerEvent() {
-      return fieldSetFlags()[9];
+      return fieldSetFlags()[10];
     }
 
 
@@ -1090,7 +1199,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearTriggerEvent() {
       triggerEvent = null;
-      fieldSetFlags()[9] = false;
+      fieldSetFlags()[10] = false;
       return this;
     }
 
@@ -1108,9 +1217,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setMessageStructure(java.lang.CharSequence value) {
-      validate(fields()[10], value);
+      validate(fields()[11], value);
       this.messageStructure = value;
-      fieldSetFlags()[10] = true;
+      fieldSetFlags()[11] = true;
       return this;
     }
 
@@ -1119,7 +1228,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'messageStructure' field has been set, false otherwise.
       */
     public boolean hasMessageStructure() {
-      return fieldSetFlags()[10];
+      return fieldSetFlags()[11];
     }
 
 
@@ -1129,7 +1238,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearMessageStructure() {
       messageStructure = null;
-      fieldSetFlags()[10] = false;
+      fieldSetFlags()[11] = false;
       return this;
     }
 
@@ -1147,9 +1256,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setProfile(java.lang.CharSequence value) {
-      validate(fields()[11], value);
+      validate(fields()[12], value);
       this.profile = value;
-      fieldSetFlags()[11] = true;
+      fieldSetFlags()[12] = true;
       return this;
     }
 
@@ -1158,7 +1267,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'profile' field has been set, false otherwise.
       */
     public boolean hasProfile() {
-      return fieldSetFlags()[11];
+      return fieldSetFlags()[12];
     }
 
 
@@ -1168,7 +1277,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearProfile() {
       profile = null;
-      fieldSetFlags()[11] = false;
+      fieldSetFlags()[12] = false;
       return this;
     }
 
@@ -1186,9 +1295,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setVersionId(java.lang.CharSequence value) {
-      validate(fields()[12], value);
+      validate(fields()[13], value);
       this.versionId = value;
-      fieldSetFlags()[12] = true;
+      fieldSetFlags()[13] = true;
       return this;
     }
 
@@ -1197,7 +1306,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'versionId' field has been set, false otherwise.
       */
     public boolean hasVersionId() {
-      return fieldSetFlags()[12];
+      return fieldSetFlags()[13];
     }
 
 
@@ -1207,7 +1316,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearVersionId() {
       versionId = null;
-      fieldSetFlags()[12] = false;
+      fieldSetFlags()[13] = false;
       return this;
     }
 
@@ -1225,9 +1334,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setCreatedBy(java.lang.CharSequence value) {
-      validate(fields()[13], value);
+      validate(fields()[14], value);
       this.createdBy = value;
-      fieldSetFlags()[13] = true;
+      fieldSetFlags()[14] = true;
       return this;
     }
 
@@ -1236,7 +1345,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'createdBy' field has been set, false otherwise.
       */
     public boolean hasCreatedBy() {
-      return fieldSetFlags()[13];
+      return fieldSetFlags()[14];
     }
 
 
@@ -1246,7 +1355,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearCreatedBy() {
       createdBy = null;
-      fieldSetFlags()[13] = false;
+      fieldSetFlags()[14] = false;
       return this;
     }
 
@@ -1264,9 +1373,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setCreatedTime(long value) {
-      validate(fields()[14], value);
+      validate(fields()[15], value);
       this.createdTime = value;
-      fieldSetFlags()[14] = true;
+      fieldSetFlags()[15] = true;
       return this;
     }
 
@@ -1275,7 +1384,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'createdTime' field has been set, false otherwise.
       */
     public boolean hasCreatedTime() {
-      return fieldSetFlags()[14];
+      return fieldSetFlags()[15];
     }
 
 
@@ -1284,7 +1393,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearCreatedTime() {
-      fieldSetFlags()[14] = false;
+      fieldSetFlags()[15] = false;
       return this;
     }
 
@@ -1302,9 +1411,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setUpdatedBy(java.lang.CharSequence value) {
-      validate(fields()[15], value);
+      validate(fields()[16], value);
       this.updatedBy = value;
-      fieldSetFlags()[15] = true;
+      fieldSetFlags()[16] = true;
       return this;
     }
 
@@ -1313,7 +1422,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'updatedBy' field has been set, false otherwise.
       */
     public boolean hasUpdatedBy() {
-      return fieldSetFlags()[15];
+      return fieldSetFlags()[16];
     }
 
 
@@ -1323,7 +1432,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearUpdatedBy() {
       updatedBy = null;
-      fieldSetFlags()[15] = false;
+      fieldSetFlags()[16] = false;
       return this;
     }
 
@@ -1341,9 +1450,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setUpdatedTime(long value) {
-      validate(fields()[16], value);
+      validate(fields()[17], value);
       this.updatedTime = value;
-      fieldSetFlags()[16] = true;
+      fieldSetFlags()[17] = true;
       return this;
     }
 
@@ -1352,7 +1461,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'updatedTime' field has been set, false otherwise.
       */
     public boolean hasUpdatedTime() {
-      return fieldSetFlags()[16];
+      return fieldSetFlags()[17];
     }
 
 
@@ -1361,7 +1470,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearUpdatedTime() {
-      fieldSetFlags()[16] = false;
+      fieldSetFlags()[17] = false;
       return this;
     }
 
@@ -1379,9 +1488,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setContent(java.lang.CharSequence value) {
-      validate(fields()[17], value);
+      validate(fields()[18], value);
       this.content = value;
-      fieldSetFlags()[17] = true;
+      fieldSetFlags()[18] = true;
       return this;
     }
 
@@ -1390,7 +1499,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'content' field has been set, false otherwise.
       */
     public boolean hasContent() {
-      return fieldSetFlags()[17];
+      return fieldSetFlags()[18];
     }
 
 
@@ -1400,7 +1509,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearContent() {
       content = null;
-      fieldSetFlags()[17] = false;
+      fieldSetFlags()[18] = false;
       return this;
     }
 
@@ -1418,9 +1527,9 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return This builder.
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder setMd5(java.lang.CharSequence value) {
-      validate(fields()[18], value);
+      validate(fields()[19], value);
       this.md5 = value;
-      fieldSetFlags()[18] = true;
+      fieldSetFlags()[19] = true;
       return this;
     }
 
@@ -1429,7 +1538,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @return True if the 'md5' field has been set, false otherwise.
       */
     public boolean hasMd5() {
-      return fieldSetFlags()[18];
+      return fieldSetFlags()[19];
     }
 
 
@@ -1439,7 +1548,7 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
       */
     public gov.cdc.ncezid.eip.ds.schema.FDDEIPMessage.Builder clearMd5() {
       md5 = null;
-      fieldSetFlags()[18] = false;
+      fieldSetFlags()[19] = false;
       return this;
     }
 
@@ -1448,25 +1557,30 @@ public class FDDEIPMessage extends org.apache.avro.specific.SpecificRecordBase i
     public FDDEIPMessage build() {
       try {
         FDDEIPMessage record = new FDDEIPMessage();
-        record.messageGUID = fieldSetFlags()[0] ? this.messageGUID : (java.lang.CharSequence) defaultValue(fields()[0]);
-        record.transportGUID = fieldSetFlags()[1] ? this.transportGUID : (java.lang.CharSequence) defaultValue(fields()[1]);
-        record.bhsGUID = fieldSetFlags()[2] ? this.bhsGUID : (java.lang.CharSequence) defaultValue(fields()[2]);
-        record.batchPosition = fieldSetFlags()[3] ? this.batchPosition : (java.lang.Long) defaultValue(fields()[3]);
-        record.fhsGUID = fieldSetFlags()[4] ? this.fhsGUID : (java.lang.CharSequence) defaultValue(fields()[4]);
-        record.status = fieldSetFlags()[5] ? this.status : (java.lang.CharSequence) defaultValue(fields()[5]);
-        record.sender = fieldSetFlags()[6] ? this.sender : (java.lang.CharSequence) defaultValue(fields()[6]);
-        record.condition = fieldSetFlags()[7] ? this.condition : (java.lang.CharSequence) defaultValue(fields()[7]);
-        record.messageCode = fieldSetFlags()[8] ? this.messageCode : (java.lang.CharSequence) defaultValue(fields()[8]);
-        record.triggerEvent = fieldSetFlags()[9] ? this.triggerEvent : (java.lang.CharSequence) defaultValue(fields()[9]);
-        record.messageStructure = fieldSetFlags()[10] ? this.messageStructure : (java.lang.CharSequence) defaultValue(fields()[10]);
-        record.profile = fieldSetFlags()[11] ? this.profile : (java.lang.CharSequence) defaultValue(fields()[11]);
-        record.versionId = fieldSetFlags()[12] ? this.versionId : (java.lang.CharSequence) defaultValue(fields()[12]);
-        record.createdBy = fieldSetFlags()[13] ? this.createdBy : (java.lang.CharSequence) defaultValue(fields()[13]);
-        record.createdTime = fieldSetFlags()[14] ? this.createdTime : (java.lang.Long) defaultValue(fields()[14]);
-        record.updatedBy = fieldSetFlags()[15] ? this.updatedBy : (java.lang.CharSequence) defaultValue(fields()[15]);
-        record.updatedTime = fieldSetFlags()[16] ? this.updatedTime : (java.lang.Long) defaultValue(fields()[16]);
-        record.content = fieldSetFlags()[17] ? this.content : (java.lang.CharSequence) defaultValue(fields()[17]);
-        record.md5 = fieldSetFlags()[18] ? this.md5 : (java.lang.CharSequence) defaultValue(fields()[18]);
+        if (metadataBuilder != null) {
+          record.metadata = this.metadataBuilder.build();
+        } else {
+          record.metadata = fieldSetFlags()[0] ? this.metadata : (gov.cdc.ncezid.eip.ds.schema.MetadataRecord) defaultValue(fields()[0]);
+        }
+        record.messageGUID = fieldSetFlags()[1] ? this.messageGUID : (java.lang.CharSequence) defaultValue(fields()[1]);
+        record.transportGUID = fieldSetFlags()[2] ? this.transportGUID : (java.lang.CharSequence) defaultValue(fields()[2]);
+        record.bhsGUID = fieldSetFlags()[3] ? this.bhsGUID : (java.lang.CharSequence) defaultValue(fields()[3]);
+        record.batchPosition = fieldSetFlags()[4] ? this.batchPosition : (java.lang.Long) defaultValue(fields()[4]);
+        record.fhsGUID = fieldSetFlags()[5] ? this.fhsGUID : (java.lang.CharSequence) defaultValue(fields()[5]);
+        record.status = fieldSetFlags()[6] ? this.status : (java.lang.CharSequence) defaultValue(fields()[6]);
+        record.sender = fieldSetFlags()[7] ? this.sender : (java.lang.CharSequence) defaultValue(fields()[7]);
+        record.condition = fieldSetFlags()[8] ? this.condition : (java.lang.CharSequence) defaultValue(fields()[8]);
+        record.messageCode = fieldSetFlags()[9] ? this.messageCode : (java.lang.CharSequence) defaultValue(fields()[9]);
+        record.triggerEvent = fieldSetFlags()[10] ? this.triggerEvent : (java.lang.CharSequence) defaultValue(fields()[10]);
+        record.messageStructure = fieldSetFlags()[11] ? this.messageStructure : (java.lang.CharSequence) defaultValue(fields()[11]);
+        record.profile = fieldSetFlags()[12] ? this.profile : (java.lang.CharSequence) defaultValue(fields()[12]);
+        record.versionId = fieldSetFlags()[13] ? this.versionId : (java.lang.CharSequence) defaultValue(fields()[13]);
+        record.createdBy = fieldSetFlags()[14] ? this.createdBy : (java.lang.CharSequence) defaultValue(fields()[14]);
+        record.createdTime = fieldSetFlags()[15] ? this.createdTime : (java.lang.Long) defaultValue(fields()[15]);
+        record.updatedBy = fieldSetFlags()[16] ? this.updatedBy : (java.lang.CharSequence) defaultValue(fields()[16]);
+        record.updatedTime = fieldSetFlags()[17] ? this.updatedTime : (java.lang.Long) defaultValue(fields()[17]);
+        record.content = fieldSetFlags()[18] ? this.content : (java.lang.CharSequence) defaultValue(fields()[18]);
+        record.md5 = fieldSetFlags()[19] ? this.md5 : (java.lang.CharSequence) defaultValue(fields()[19]);
         return record;
       } catch (java.lang.Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);
