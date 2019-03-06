@@ -134,13 +134,13 @@ public class S3Producer extends TimerTask{
 	
 	private Schema loadSchema() throws IOException{
 		 
-		String userSchema = ResourceHelper.getSchemabyName("fddEipMessage.avsc");
+		String userSchema = ResourceHelper.getSchemabyName("FDDEIPSource.avsc");
 		Schema.Parser parser = new Schema.Parser();
 		return parser.parse(userSchema);
 	}
 	private Schema loadSchemaKey() throws IOException{
 		 
-		String userSchema = ResourceHelper.getSchemabyName("fddEipMessageKey.avsc");
+		String userSchema = ResourceHelper.getSchemabyName("FDDEIPSourceKey.avsc");
 		Schema.Parser parser = new Schema.Parser();
 		return parser.parse(userSchema);
 	}

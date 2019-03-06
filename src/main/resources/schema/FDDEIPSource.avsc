@@ -1,0 +1,102 @@
+{
+  "type": "record",
+  "name": "FDDEIPSource",
+  "namespace": "gov.cdc.ncezid.eip.ds.schema",
+  "fields": [
+    {
+      "name": "messageGUID",
+      "type": "string",
+      "default": null
+    },
+    {
+      "name": "transportGUID",
+      "type": ["null","string"],
+      "default": null
+    },
+    {
+      "name": "bhsGUID",
+      "type": ["null","string"],
+      "default": null
+    },
+    {
+      "name": "batchPosition",
+      "type": ["null","long"],
+      "default": null
+    },
+    {
+      "name": "fhsGUID",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "status",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "sender",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "condition",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "messageCode",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "triggerEvent",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "messageStructure",
+      "type": ["null","string"],
+      "default": null
+    },
+    {
+      "name": "profile",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "versionId",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "createdBy",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "createdTime",
+      "type": ["null","long"],
+      "default": null
+    },
+    {
+      "name": "updatedBy",
+      "type": ["null","string"],
+      "default": null
+    },
+    {
+      "name": "updatedTime",
+      "type": ["null", "long"],
+      "default": null
+    },
+    {
+      "name": "content",
+      "type": ["null","string"],
+      "default": null
+    },
+    {
+      "name": "md5",
+      "type": ["null","string"],
+      "default": null
+    }
+  ]
+}
